@@ -8,13 +8,11 @@ public interface ExerciseDao {
 
     public abstract Exercise createExercise(Exercise e);
 
-    public abstract Exercise getExercise(Exercise e);
+    public abstract Exercise getExercise(String exerciseName);
 
     public abstract List<Exercise> getAllExercises();
 
-    public abstract List<Exercise> getAllExercisesInRoutine(String routineId);
-
     public abstract Exercise updateExercise(String exerciseName);
 
-    public abstract String deleteExercise(String username);
+    public abstract String deleteExercise(String exerciseName);
 }
