@@ -9,6 +9,7 @@ public class Exercise {
     public Exercise() {
     }
 
+    //Exercise Constructor
     public Exercise(String exerciseName, String description, String type, String videoLink) {
         this.exerciseName = exerciseName;
         this.description = description;
