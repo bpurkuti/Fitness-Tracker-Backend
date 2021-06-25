@@ -1,4 +1,4 @@
-package entities;
+package dev.marker.entities;
 
 public class User {
     private String username;

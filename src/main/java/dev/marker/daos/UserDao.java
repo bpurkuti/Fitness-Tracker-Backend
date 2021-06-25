@@ -1,6 +1,6 @@
-package daos;
+package dev.marker.daos;
 
-import entities.User;
+import dev.marker.entities.User;
 
 public interface UserDao {
 

@@ -1,9 +1,9 @@
-package daotests;
-
-import daos.UserDao;
-import entities.User;
+package dev.marker.daotests;
 
 import org.testng.annotations.Test;
+
+import dev.marker.daos.UserDao;
+import dev.marker.entities.User;
 
 import org.testng.Assert;
 

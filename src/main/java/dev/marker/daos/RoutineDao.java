@@ -1,8 +1,8 @@
-package daos;
-
-import entities.Routine;
+package dev.marker.daos;
 
 import java.util.List;
+
+import dev.marker.entities.Routine;
 
 
 public interface RoutineDao {
