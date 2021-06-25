@@ -1,9 +1,9 @@
-package daos;
+package dev.marker.daos;
 
-
-import entities.RoutineExercise;
 
 import java.util.List;
+
+import dev.marker.entities.RoutineExercise;
 
 public interface RoutineExerciseDao {
 
