@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 package entities;
 
 public class RoutineExercise {
@@ -82,6 +83,8 @@ public class RoutineExercise {
     }
 }
 =======
+=======
+>>>>>>> Bishwo
 package entities;
 
 public class RoutineExercise {
@@ -153,4 +156,7 @@ public class RoutineExercise {
                 '}';
     }
 }
+<<<<<<< HEAD
 >>>>>>> Added Test package
+=======
+>>>>>>> Bishwo
