@@ -2,6 +2,7 @@ package dev.marker.entities;
 
 
 public class RoutineExercise {
+    private String routineExerciseId;
     private String exerciseName;
     private int routineId;
     private int duration;
@@ -11,12 +12,22 @@ public class RoutineExercise {
     public RoutineExercise() {
     }
 
-    public RoutineExercise(String exerciseName, int routineId, int duration, int reps, int weight) {
+
+    public RoutineExercise(String routineExerciseId, String exerciseName, int routineId, int duration, int reps, int weight) {
+        this.routineExerciseId = routineExerciseId;
         this.exerciseName = exerciseName;
         this.routineId = routineId;
         this.duration = duration;
         this.reps = reps;
         this.weight = weight;
+    }
+
+    public void setRoutineExerciseId(String routineExerciseId) {
+        this.routineExerciseId = routineExerciseId;
+    }
+
+    public String getRoutineExerciseId() {
+        return routineExerciseId;
     }
 
     public String getExerciseName() {
@@ -62,7 +73,8 @@ public class RoutineExercise {
     @Override
     public String toString() {
         return "RoutineExercise{" +
-                "exerciseName='" + exerciseName + '\'' +
+                "routineExerciseId='" + routineExerciseId + '\'' +
+                ", exerciseName='" + exerciseName + '\'' +
                 ", routineId=" + routineId +
                 ", duration=" + duration +
                 ", reps=" + reps +

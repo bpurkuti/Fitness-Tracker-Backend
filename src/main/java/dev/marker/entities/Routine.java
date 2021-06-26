@@ -1,9 +1,11 @@
 package dev.marker.entities;
 
 public class Routine {
+    
     private int routineId;
     private String username;
     private String routineName;
+
     private int dateScheduled;
     private int dateCompleted;
 
@@ -14,6 +16,7 @@ public class Routine {
         this.routineId = routineId;
         this.username = username;
         this.routineName = routineName;
+
         this.dateScheduled = dateScheduled;
         this.dateCompleted = dateCompleted;
     }
@@ -23,6 +26,7 @@ public class Routine {
     }
 
     public void setRoutineId(int routineId) {
+
         this.routineId = routineId;
     }
 
@@ -40,6 +44,7 @@ public class Routine {
 
     public void setRoutineName(String routineName) {
         this.routineName = routineName;
+
     }
 
     public int getDateScheduled() {
@@ -63,7 +68,9 @@ public class Routine {
         return "Routine{" +
                 "routineId='" + routineId + '\'' +
                 ", username='" + username + '\'' +
-                ", workoutName='" + routineName + '\'' +
+
+                ", routineName='" + routineName + '\'' +
+
                 ", dateScheduled=" + dateScheduled +
                 ", dateCompleted=" + dateCompleted +
                 '}';
