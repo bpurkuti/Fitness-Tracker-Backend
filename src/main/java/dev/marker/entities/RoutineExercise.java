@@ -1,5 +1,6 @@
 package dev.marker.entities;
 
+
 public class RoutineExercise {
     private String routineExerciseId;
     private String exerciseName;
@@ -10,6 +11,7 @@ public class RoutineExercise {
 
     public RoutineExercise() {
     }
+
 
     public RoutineExercise(String routineExerciseId, String exerciseName, int routineId, int duration, int reps, int weight) {
         this.routineExerciseId = routineExerciseId;
@@ -80,3 +82,4 @@ public class RoutineExercise {
                 '}';
     }
 }
+

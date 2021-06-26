@@ -1,8 +1,7 @@
 package dev.marker.daos;
 
-import java.util.List;
-
 import dev.marker.entities.Exercise;
+import java.util.List;
 
 public interface ExerciseDao {
 
