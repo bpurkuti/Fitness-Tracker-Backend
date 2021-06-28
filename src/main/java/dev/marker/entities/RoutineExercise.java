@@ -1,5 +1,6 @@
 package dev.marker.entities;
 
+
 public class RoutineExercise {
     private int routineExerciseId;
     private String exerciseName;
@@ -80,3 +81,4 @@ public class RoutineExercise {
                 '}';
     }
 }
+

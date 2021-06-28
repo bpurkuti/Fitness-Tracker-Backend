@@ -1,15 +1,14 @@
 package dev.marker.daos;
 
-import java.util.List;
-
 import dev.marker.entities.Routine;
+import java.util.List;
 
 
 public interface RoutineDao {
 
     public abstract Routine createRoutine(Routine r);
 
-    public abstract Routine getRoutine(String routineId);
+    public abstract Routine getRoutine(int routineId);
 
     //Not sure if we need
     public abstract List<Routine> getAllRoutines();
@@ -18,6 +17,6 @@ public interface RoutineDao {
 
     public abstract Routine updateRoutine(Routine r);
 
-    public abstract String deleteRoutine(String routineId);
+    public abstract boolean deleteRoutine(int routineId);
 
 }
