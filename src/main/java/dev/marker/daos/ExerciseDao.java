@@ -12,7 +12,7 @@ public interface ExerciseDao {
 
     public abstract List<Exercise> getAllExercises();
 
-    public abstract Exercise updateExercise(String exerciseName);
+    public abstract Exercise updateExercise(Exercise e);
 
     public abstract String deleteExercise(String exerciseName);
 }

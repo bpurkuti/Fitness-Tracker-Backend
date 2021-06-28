@@ -7,14 +7,14 @@ import dev.marker.entities.RoutineExercise;
 
 public interface RoutineExerciseDao {
 
-    public abstract RoutineExercise createExercise(RoutineExercise e);
+    public abstract RoutineExercise createExercise(RoutineExercise routineExercise);
 
-    public abstract RoutineExercise getExercise(String routineExerciseId);
+    public abstract RoutineExercise getExercise(int routineExerciseId);
 
-    public abstract List<RoutineExercise> getAllExercisesInRoutine(String routineId);
+    public abstract List<RoutineExercise> getAllExercisesInRoutine(int routineId);
 
-    public abstract RoutineExercise updateExercise(String routineExerciseId);
+    public abstract RoutineExercise updateExercise(RoutineExercise routineExercise);
 
-    public abstract String deleteExercise(String routineExerciseId);
+    public abstract boolean deleteExercise(int routineExerciseId);
 
 }

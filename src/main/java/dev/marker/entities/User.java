@@ -9,11 +9,12 @@ public class User {
     private int age;
     private int height;
     private int weight;
+    private boolean admin;
 
     public User() {
     }
 
-    public User(String username, String password, String firstName, String lastName, String gender, int age, int height, int weight) {
+    public User(String username, String password, String firstName, String lastName, String gender, int age, int height, int weight, boolean admin) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -22,6 +23,7 @@ public class User {
         this.age = age;
         this.height = height;
         this.weight = weight;
+        this.admin = admin;
     }
 
     public String getUsername() {
@@ -86,6 +88,14 @@ public class User {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     @Override
