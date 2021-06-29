@@ -16,8 +16,8 @@ public class RoutineDaoTests {
     static UserDao userDao = null;
 
     //Might have to create these users
-    static User user = new User("TestUser", "password", "Test", "User", "Male", 20, 70, 150, false);
-
+    private static User user = new User("TestUser", "password", "Test", "User", "Male", 20, 70, 150, false);
+    private static User extraUser = new User("TestUser2", "password", "Test", "User", "Male", 20, 70, 150, false);
 
     @BeforeClass
     public void testInit(){
@@ -25,85 +25,91 @@ public class RoutineDaoTests {
 
     }
 
-    @Test(priority = 1)
-    void createRoutine1(){
-        Routine testRoutine = new Routine(0, "TestUser", "Legs Day", 0, 0);
+    @Test
+    void createNewRoutine(){
+        Routine testRoutine = new Routine(0, user.getUsername(), "Legs Day", 0, 0);
         Routine routine = routineDao.createRoutine(testRoutine);
         Assert.assertNotEquals(routine.getRoutineId(), 0);
+        Assert.assertEquals(routine.getRoutineName(), testRoutine.getRoutineName());
+        Assert.assertEquals(routine.getUsername(), testRoutine.getUsername());
+        Assert.assertEquals(routine.getDateCompleted(), testRoutine.getDateCompleted());
+        Assert.assertEquals(routine.getDateScheduled(), testRoutine.getDateScheduled());
     }
 
-//    Fail test for when the username doesn't exist
-    @Test(priority = 2, expectedExceptions = UserDoesntExist.class)
-    void createRoutine2(){
+    @Test
+    void createRoutineWithoutUser(){
         Routine testRoutine = new Routine(0, "UsernameDoesntExist", "Arms Day", 0, 0);
         Routine routine = routineDao.createRoutine(testRoutine);
+        Assert.assertNull(routine);
     }
 
-    @Test(priority =3, dependsOnMethods = "createRoutine1")
-    void getRoutine1(){
-        Routine testRoutine = new Routine(0, "TestUser", "Arms Day", 0, 0);
+    @Test
+    void getExisitingRoutine(){
+        Routine testRoutine = new Routine(0, user.getUsername(), "Arms Day", 0, 0);
         Routine routine = routineDao.createRoutine(testRoutine);
         Routine result = routineDao.getRoutine(routine.getRoutineId());
         Assert.assertEquals(testRoutine.getRoutineName(), result.getRoutineName());
     }
 
-    @Test(priority = 4, dependsOnMethods = "createRoutine1", expectedExceptions = RoutineDoesntExist.class)
-    void getRoutine2(){
-        Routine result = routineDao.getRoutine(0);
+    @Test
+    void getNonExistingRoutine(){
+        Routine routine = routineDao.getRoutine(0);
+        Assert.assertNull(routine);
     }
 
-    @Test(priority = 5)
-    void getAllRoutines1(){
-        Routine routine1 = new Routine(0, "TestUser", "Triceps Day", 0, 0);
-        Routine routine2 = new Routine(0, "TestUser", "Chest Day", 0, 0);
-        Routine routine3 = new Routine(0, "TestUser", "Shoulder Day", 0, 0);
-        Routine routine4 = new Routine(0, "TestUser", "Biceps Day", 0, 0);
+    @Test
+    void getAllRoutines(){
+        Routine routine1 = new Routine(0, user.getUsername(), "Triceps Day", 0, 0);
+        Routine routine2 = new Routine(0, user.getUsername(), "Chest Day", 0, 0);
+        Routine routine3 = new Routine(0, user.getUsername(), "Shoulder Day", 0, 0);
 
         routineDao.createRoutine(routine1);
         routineDao.createRoutine(routine2);
         routineDao.createRoutine(routine3);
         List<Routine> routines = routineDao.getAllRoutines();
-        Assert.assertTrue(routines.size()>4);
-    }
-
-    @Test(priority =6, dependsOnMethods = "createRoutine1")
-    void getAllRoutinesForUser1(){
-        User user = new User("TestUser2", "password", "Test2", "User", "Male", 20, 70, 150);
-        userDao.createUser(user);
-        Routine routine1 = new Routine(0, "TestUser2", "Arms Day", 0, 0);
-        Routine routine2 = new Routine(0, "TestUser2", "Chest Day", 0, 0);
-        Routine routine3 = new Routine(0, "TestUser2", "Shoulder Day", 0, 0);
-        routineDao.createRoutine(routine1);
-        routineDao.createRoutine(routine2);
-        routineDao.createRoutine(routine3);
-        List<Routine> routines = routineDao.getAllRoutinesForUser("TestUser2");
         Assert.assertEquals(routines.size(), 3);
     }
 
-    @Test(priority =7,  expectedExceptions = UserDoesntExist.class)
-    void getAllRoutinesForUser2(){
-        List<Routine> routines = routineDao.getAllRoutinesForUser("UsernameDoesntExist");
+    @Test
+    void getAllRoutinesForUser(){
+        Routine routine1 = new Routine(0, user.getUsername(), "Arms Day", 0, 0);
+        Routine routine2 = new Routine(0, user.getUsername(), "Chest Day", 0, 0);
+        Routine routine3 = new Routine(0, user.getUsername(), "Shoulder Day", 0, 0);
+        Routine routine4 = new Routine(0, extraUser.getUsername(), "Triceps Day", 0, 0);
+        routineDao.createRoutine(routine1);
+        routineDao.createRoutine(routine2);
+        routineDao.createRoutine(routine3);
+        routineDao.createRoutine(routine4);
+        List<Routine> routines = routineDao.getAllRoutinesForUser(user.getUsername());
+        Assert.assertEquals(routines.size(), 3);
     }
 
-    @Test(priority =8, dependsOnMethods = "createRoutine1")
-    void updateRoutine1(){
-        Routine testRoutine = new Routine(0, "TestUser", "Glutes Workout", 0, 0);
+    @Test
+    void getAllRoutinesForNonExistingUser(){
+        List<Routine> routines = routineDao.getAllRoutinesForUser("UsernameDoesntExist");
+        Assert.assertNull(routines);
+    }
+
+    @Test
+    void updateRoutine(){
+        Routine testRoutine = new Routine(0, user.getUsername(), "Glutes Workout", 0, 0);
         Routine result = routineDao.createRoutine(testRoutine);
         result.setRoutineName("Glutes Day");
         Routine updatedRoutine = routineDao.updateRoutine(result);
-        Assert.assertEquals(updatedRoutine.getRoutineName(),"Glutes Day" );
+        Assert.assertEquals(updatedRoutine.getRoutineName(), result.getRoutineName());
     }
 
-    @Test(priority =8,  expectedExceptions = RoutineDoesntExist.class)
-    void updateRoutine2(){
-        Routine testRoutine = new Routine(0, "TestUser", "Glutes Workout", 0, 0);
+    @Test
+    void updateNonExistingRoutine(){
+        Routine testRoutine = new Routine(0, user.getUsername(), "Glutes Workout", 0, 0);
         Routine updatedRoutine = routineDao.updateRoutine(testRoutine);
+        Assert.assertNull(updatedRoutine);
     }
 
     //Confused about what deleteRoutine actually returns
-    @Test(priority =8, dependsOnMethods = "createRoutine1")
-    void deleteRoutine1(){
-        Routine testRoutine = new Routine(0, "TestUser", "Glutes Workout", 0, 0);
+    @Test
+    void deleteExistingRoutine(){
+        Routine testRoutine = new Routine(0, user.getUsername(), "Glutes Workout", 0, 0);
         Routine routine = routineDao.createRoutine(testRoutine);
         boolean result = routineDao.deleteRoutine(routine.getRoutineId());
         Assert.assertTrue(result);

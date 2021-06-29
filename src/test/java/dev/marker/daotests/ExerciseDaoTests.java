@@ -1,15 +1,52 @@
 package dev.marker.daotests;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import dev.marker.daos.ExerciseDao;
+import dev.marker.daos.ExerciseDaoPostgres;
 import dev.marker.entities.Exercise;
+import dev.marker.utils.ConnectionUtil;
 
 public class ExerciseDaoTests {
 
-    private ExerciseDao exerciseDao;
+    private static String tableName = "test_exercises";
+    private static ExerciseDao exerciseDao = new ExerciseDaoPostgres(tableName);
+    private static Connection connection;
 
+    @BeforeClass
+    void setupConnection(){
+        connection = ConnectionUtil.createConnection();
+    }
+
+    @BeforeMethod
+    void emptyTables(){
+        try{
+            String sql = String.format("DELETE FROM %s", tableName);
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    @AfterClass
+    void closeConnection(){
+        try{
+            connection.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     @Test
     void createNewExercise() {
         Exercise exercise = new Exercise("Jogging", "Run for a duration of time.", "Cardio", "www.youtube.com");
@@ -23,21 +60,21 @@ public class ExerciseDaoTests {
 
     @Test
     void createNullExercise1() {
-        Exercise exercise = new Exercise("", "Run for a duration of time.", "Cardio", "www.youtube.com");
+        Exercise exercise = new Exercise(null, "Run for a duration of time.", "Cardio", "www.youtube.com");
         Exercise returnedExercise = exerciseDao.createExercise(exercise);
         Assert.assertNull(returnedExercise);
     }
 
     @Test
     void createNullExercise2() {
-        Exercise exercise = new Exercise("Jogging", "", "Cardio", "www.youtube.com");
+        Exercise exercise = new Exercise("Jogging", null, "Cardio", "www.youtube.com");
         Exercise returnedExercise = exerciseDao.createExercise(exercise);
         Assert.assertNull(returnedExercise);
     }
 
     @Test
     void createNullExercise3() {
-        Exercise exercise = new Exercise("Jogging", "Run for a duration of time.", "", "www.youtube.com");
+        Exercise exercise = new Exercise("Jogging", "Run for a duration of time.", null, "www.youtube.com");
         Exercise returnedExercise = exerciseDao.createExercise(exercise);
         Assert.assertNull(returnedExercise);
     }

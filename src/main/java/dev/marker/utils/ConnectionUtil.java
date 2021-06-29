@@ -6,13 +6,9 @@ import java.sql.SQLException;
 
 public class ConnectionUtil {
 
-    private static Connection connection;
-
     public static Connection createConnection(){
-        //  jdbc:postgresql://ranieridb.cyysbedq8cqc.us-east-1.rds.amazonaws.com:5432/postgres?user=adam&password=gatorfan1
         try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://ranieridb.cyysbedq8cqc.us-east-1.rds.amazonaws.com:5432/postgres?user=adam&password=gatorfan1");
-            ConnectionUtil.connection = connection;
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com:5432/postgres?user=revature&password=revature");
             return connection;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
