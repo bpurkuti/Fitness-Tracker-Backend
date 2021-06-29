@@ -5,7 +5,6 @@ public class Routine {
     private int routineId;
     private String username;
     private String routineName;
-
     private int dateScheduled;
     private int dateCompleted;
 
@@ -44,7 +43,6 @@ public class Routine {
 
     public void setRoutineName(String routineName) {
         this.routineName = routineName;
-
     }
 
     public int getDateScheduled() {
