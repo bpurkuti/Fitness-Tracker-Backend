@@ -22,7 +22,6 @@ public class RoutineDaoTests {
     @BeforeClass
     public void testInit(){
         userDao.createUser(user);
-
     }
 
     @Test
@@ -113,10 +112,5 @@ public class RoutineDaoTests {
         Routine routine = routineDao.createRoutine(testRoutine);
         boolean result = routineDao.deleteRoutine(routine.getRoutineId());
         Assert.assertTrue(result);
-    }
-
-    @Test(priority =9, expectedExceptions = RoutineDoesntExist.class)
-    void deleteRoutine2(){
-        boolean result = routineDao.deleteRoutine(0);
     }
 }
