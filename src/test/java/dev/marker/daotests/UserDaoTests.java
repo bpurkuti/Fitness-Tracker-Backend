@@ -49,7 +49,6 @@ public class UserDaoTests {
         }
     }
 
-
     @Test
     void createNewUser() {
         User user = new User("exUsername", "exPassword", "John", "Doe", "Male", 21, 60, 160, false);
