@@ -66,7 +66,6 @@ public class UserDaoPostgres implements UserDao {
         catch(SQLException e){
             return null;
         }
-
     }
 
 
@@ -91,7 +90,6 @@ public class UserDaoPostgres implements UserDao {
                 return user;
         }
         catch(SQLException e) {
-            // e.printStackTrace();
             return null;
         }
     }
@@ -112,5 +110,4 @@ public class UserDaoPostgres implements UserDao {
             return null;
         }
     }
-
 }

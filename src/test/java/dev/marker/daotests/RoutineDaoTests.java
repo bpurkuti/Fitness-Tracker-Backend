@@ -1,28 +1,69 @@
 package dev.marker.daotests;
 import dev.marker.daos.RoutineDao;
+import dev.marker.daos.RoutineDaoPostgres;
 import dev.marker.daos.UserDao;
+import dev.marker.daos.UserDaoPostgres;
 import dev.marker.entities.Routine;
 import dev.marker.entities.User;
-import dev.marker.exceptions.RoutineDoesntExist;
-import dev.marker.exceptions.UserDoesntExist;
+import dev.marker.utils.ConnectionUtil;
+
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 public class RoutineDaoTests {
-    static RoutineDao routineDao = null;
-    static UserDao userDao = null;
 
-    //Might have to create these users
     private static User user = new User("TestUser", "password", "Test", "User", "Male", 20, 70, 150, false);
     private static User extraUser = new User("TestUser2", "password", "Test", "User", "Male", 20, 70, 150, false);
 
-    @BeforeClass
-    public void testInit(){
-        userDao.createUser(user);
+    private static String userTableName = "test_users";
+    private static String routineTableName = "test_routines";
+    static UserDao userDao = new UserDaoPostgres(userTableName);
+    private static RoutineDao routineDao = new RoutineDaoPostgres(routineTableName);
+    private static Connection connection;
 
+    @BeforeClass
+    void testInit(){
+        connection = ConnectionUtil.createConnection();
+        try{
+            String sql = String.format("DELETE FROM %s", userTableName);
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+            userDao.createUser(user);
+            userDao.createUser(extraUser);
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    @BeforeMethod
+    void emptyTables(){
+        try{
+            String sql = String.format("DELETE FROM %s", routineTableName);
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.execute();
+        }
+        catch(Exception e){
+
+        }
+    }
+
+    @AfterClass
+    void closeConnection(){
+        try{
+            connection.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -87,7 +128,7 @@ public class RoutineDaoTests {
     @Test
     void getAllRoutinesForNonExistingUser(){
         List<Routine> routines = routineDao.getAllRoutinesForUser("UsernameDoesntExist");
-        Assert.assertNull(routines);
+        Assert.assertEquals(routines.size(), 0);
     }
 
     @Test
@@ -106,7 +147,6 @@ public class RoutineDaoTests {
         Assert.assertNull(updatedRoutine);
     }
 
-    //Confused about what deleteRoutine actually returns
     @Test
     void deleteExistingRoutine(){
         Routine testRoutine = new Routine(0, user.getUsername(), "Glutes Workout", 0, 0);
@@ -115,8 +155,9 @@ public class RoutineDaoTests {
         Assert.assertTrue(result);
     }
 
-    @Test(priority =9, expectedExceptions = RoutineDoesntExist.class)
-    void deleteRoutine2(){
+    @Test
+    void deleteNonExistingRoutine(){
         boolean result = routineDao.deleteRoutine(0);
+        Assert.assertFalse(result);
     }
 }
