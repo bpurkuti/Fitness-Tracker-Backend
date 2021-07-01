@@ -26,8 +26,8 @@ public class App {
         app.post("/createRoutine", routineEndpoints.createRoutine);
         app.post("/getRoutineById", routineEndpoints.getRoutineById);
         app.post("/getRoutinesForUser", routineEndpoints.getRoutinesForUser);
-        app.post("/updateRoutine", routineEndpoints.updateRoutine);
-        app.post("/deleteRoutine", routineEndpoints.deleteRoutine);
+        app.patch("/updateRoutine", routineEndpoints.updateRoutine);
+        app.delete("/deleteRoutine", routineEndpoints.deleteRoutine);
         app.start();
 
     }
