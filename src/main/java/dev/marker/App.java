@@ -17,6 +17,7 @@ public class App {
         app.post("/createAccount", accountEndpoints.createAccount);
         app.post("/loginAccount", accountEndpoints.loginAccount);
         app.post("/logoutAccount", accountEndpoints.logoutAccount);
+        app.post("/getAccount", accountEndpoints.getAccount);
 
         app.start();
 
