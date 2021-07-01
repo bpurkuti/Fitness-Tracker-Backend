@@ -11,7 +11,6 @@ public class RoutineServiceImpl implements RoutineService {
 
     public RoutineServiceImpl(RoutineDao routineDao){
         this.routineDao = routineDao;
-
     }
 
     @Override
