@@ -77,7 +77,7 @@ public class AccountEndpoints {
     public Handler logoutAccount = (ctx) -> {
         try {
             Session session = this.gson.fromJson(ctx.body(), Session.class);
-            accountService.logOut(session.session);
+            accountService.logOut(session.getSession());
             ctx.status(200);
             ctx.result("Logout successful");
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class AccountEndpoints {
     public Handler getAccount = (ctx) -> {
         try {
             Session session = this.gson.fromJson(ctx.body(), Session.class);
-            SafeUser user = new SafeUser(this.accountService.getUser(session.session));
+            SafeUser user = new SafeUser(this.accountService.getUser(session.getSession()));
             ctx.status(200);
             ctx.result(this.gson.toJson(user));
         } catch (InvalidSession e) {
@@ -108,15 +108,6 @@ public class AccountEndpoints {
             ctx.result("The server encountered an error");
         }
     };
-
-    private class Session {
-
-        String session;
-
-        Session(String session) {
-            this.session = session;
-        }
-    }
 
     private class SafeUser {
         String username;
