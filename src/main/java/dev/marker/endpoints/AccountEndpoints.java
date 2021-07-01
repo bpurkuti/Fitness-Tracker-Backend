@@ -25,8 +25,9 @@ public class AccountEndpoints {
     public Handler createAccount = (ctx) -> {
         try {
             User user = this.gson.fromJson(ctx.body(), User.class);
-            Session session = new Session(accountService.createAccount(user.getUsername(), user.getPassword(), user.getFirstName(),
-                    user.getLastName(), user.getGender(), user.getAge(), user.getHeight(), user.getWeight(), false));
+            Session session = new Session(accountService.createAccount(user.getUsername(), user.getPassword(),
+                    user.getFirstName(), user.getLastName(), user.getGender(), user.getAge(), user.getHeight(),
+                    user.getWeight(), false));
             ctx.status(201);
             ctx.result(this.gson.toJson(session));
         } catch (DuplicateUser e) {
@@ -76,7 +77,7 @@ public class AccountEndpoints {
     public Handler logoutAccount = (ctx) -> {
         try {
             Session session = this.gson.fromJson(ctx.body(), Session.class);
-            accountService.logOut(session.session);
+            accountService.logOut(session.getSession());
             ctx.status(200);
             ctx.result("Logout successful");
         } catch (Exception e) {
@@ -86,12 +87,47 @@ public class AccountEndpoints {
         }
     };
 
-    private class Session{
+    /**
+     * Gets the account owning the session
+     * 
+     * @input json => {session: (session)}
+     * @returns json => JSON(User.class).toString()
+     */
+    public Handler getAccount = (ctx) -> {
+        try {
+            Session session = this.gson.fromJson(ctx.body(), Session.class);
+            SafeUser user = new SafeUser(this.accountService.getUser(session.getSession()));
+            ctx.status(200);
+            ctx.result(this.gson.toJson(user));
+        } catch (InvalidSession e) {
+            ctx.status(401);
+            ctx.result(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(500);
+            ctx.result("The server encountered an error");
+        }
+    };
 
-        String session;
+    private class SafeUser {
+        String username;
+        String firstName;
+        String lastName;
+        String gender;
+        int age;
+        int height;
+        int weight;
+        boolean admin;
 
-        Session(String session){
-            this.session = session;
+        SafeUser(User user) {
+            this.username = user.getUsername();
+            this.firstName = user.getFirstName();
+            this.lastName = user.getLastName();
+            this.gender = user.getGender();
+            this.age = user.getAge();
+            this.height = user.getHeight();
+            this.weight = user.getWeight();
+            this.admin = user.isAdmin();
         }
     }
 }

@@ -2,7 +2,6 @@ package dev.marker.services;
 
 import dev.marker.entities.Exercise;
 import dev.marker.daos.ExerciseDao;
-import dev.marker.daos.ExerciseDaoPostgres;
 import dev.marker.exceptions.ExerciseDoesntExist;
 
 import java.util.List;

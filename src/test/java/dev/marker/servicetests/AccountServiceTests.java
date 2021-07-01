@@ -19,7 +19,7 @@ import dev.marker.services.AccountService;
 import dev.marker.services.AccountServiceImpl;
 import dev.marker.utils.ConnectionUtil;
 
-public class AccountServiceIntegrationTests {
+public class AccountServiceTests {
 
     private static String tableName = "test_users";
     private static Connection connection;

@@ -28,13 +28,13 @@ public class AccountServiceImpl implements AccountService {
             int age, int height, int weight, boolean admin) throws DuplicateUser, IncorrectArguments {
 
         StringBuilder errorMessage = new StringBuilder();
-        if (username == null)
+        if (username == null || username.length() == 0)
             errorMessage.append("Username field is empty.\n");
-        if (password == null)
+        if (password == null || password.length() == 0)
             errorMessage.append("Password field is empty.\n");
-        if (firstName == null)
+        if (firstName == null || firstName.length() == 0)
             errorMessage.append("First name field is empty.\n");
-        if (lastName == null)
+        if (lastName == null || lastName.length() == 0)
             errorMessage.append("Last name field is empty.\n");
         if (errorMessage.length() != 0)
             throw new IncorrectArguments(errorMessage.toString());
@@ -51,10 +51,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public String logIn(String username, String password) throws UserDoesntExist, IncorrectArguments {
         StringBuilder errorMessage = new StringBuilder();
-        if (username == null)
-            errorMessage.append("Username field is empty.\n");
-        if (password == null)
-            errorMessage.append("Password field is empty.\n");
+        if (username == null || username.length() == 0)
+            errorMessage.append("Username field is empty\n");
+        if (password == null || password.length() == 0)
+            errorMessage.append("Password field is empty\n");
         if (errorMessage.length() != 0)
             throw new IncorrectArguments(errorMessage.toString());
         User user = userDao.getUser(username);

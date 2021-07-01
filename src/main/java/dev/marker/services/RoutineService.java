@@ -1,22 +1,23 @@
 package dev.marker.services;
 
 import dev.marker.entities.Routine;
+import dev.marker.entities.User;
+import dev.marker.exceptions.IncorrectArguments;
+import dev.marker.exceptions.PermissionException;
+import dev.marker.exceptions.ResourceNotFound;
 
 import java.util.List;
 
 public interface RoutineService {
 
-    public abstract Routine createRoutine(Routine r);
+    public abstract Routine createRoutine(User user, String routineName, int dateScheduled) throws IncorrectArguments;
 
-    public abstract Routine getRoutine(int routineId);
+    public abstract Routine getRoutine(User user, int routineId) throws PermissionException, ResourceNotFound;
 
-    //Not sure if we need
-    public abstract List<Routine> getAllRoutines();
+    public abstract List<Routine> getAllRoutinesForUser(User user);
 
-    public abstract List<Routine> getAllRoutinesForUser(String username);
+    public abstract Routine updateRoutine(User user, int routineId, String routineName, int dateScheduled) throws PermissionException, IncorrectArguments, ResourceNotFound;
 
-    public abstract Routine updateRoutine(Routine r);
-
-    public abstract boolean deleteRoutine(int routineId);
+    public abstract boolean deleteRoutine(User user, int routineId) throws PermissionException, ResourceNotFound;
 
 }
