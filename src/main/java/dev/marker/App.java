@@ -17,7 +17,7 @@ public class App {
             config.enableDevLogging();
         });
 
-            RoutineDao routineDao = new RoutineDaoPostgres("test_routines");
+        RoutineDao routineDao = new RoutineDaoPostgres("test_routines");
         AccountService accountService = new AccountServiceImpl(new UserDaoPostgres("test_users"), 86400); // 86400 seconds = 24 hours
         RoutineService routineService = new RoutineServiceImpl(routineDao);
         ExerciseService exerciseService = new ExerciseServiceImpl(new ExerciseDaoPostgres("test_exercises"));
@@ -44,11 +44,11 @@ public class App {
         app.patch("/updateExercise", exerciseEndpoints.updateExercise);
         app.delete("/deleteExercise", exerciseEndpoints.deleteExercise);
 
-        app.post("/createRoutineExercise", routineEndpoints.createRoutine);
-        app.post("/getRoutineExercise", routineEndpoints.getRoutineById);
-        app.post("/getAllExercisesInRoutine", routineEndpoints.getRoutinesForUser);
-        app.patch("/updateRoutineExercise", routineEndpoints.updateRoutine);
-        app.delete("/deleteRoutineExercise", routineEndpoints.deleteRoutine);
+        app.post("/createRoutineExercise", routineExerciseEndpoints.createRoutineExercise);
+        app.post("/getRoutineExercise", routineExerciseEndpoints.getRoutineExercise);
+        app.post("/getAllExercisesInRoutine", routineExerciseEndpoints.getAllExercisesInRoutine);
+        app.patch("/updateRoutineExercise", routineExerciseEndpoints.updateRoutineExercise);
+        app.delete("/deleteRoutineExercise", routineExerciseEndpoints.deleteRoutineExercise);
 
         app.start();
 
