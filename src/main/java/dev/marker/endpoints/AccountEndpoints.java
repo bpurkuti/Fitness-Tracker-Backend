@@ -19,7 +19,7 @@ public class AccountEndpoints {
     /**
      * Creates an account using the specified values
      * 
-     * @input json => JSON(User.class).toString()
+     * @input json => JSON(User.class)
      * @returns json => {session: (session)}
      */
     public Handler createAccount = (ctx) -> {
@@ -30,7 +30,7 @@ public class AccountEndpoints {
                     user.getWeight(), false));
             ctx.status(201);
             ctx.result(this.gson.toJson(session));
-        } catch (DuplicateUser e) {
+        } catch (DuplicationException e) {
             ctx.status(409);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
@@ -55,7 +55,7 @@ public class AccountEndpoints {
             Session session = new Session(accountService.logIn(user.getUsername(), user.getPassword()));
             ctx.status(200);
             ctx.result(this.gson.toJson(session));
-        } catch (UserDoesntExist e) {
+        } catch (ResourceNotFound e) {
             ctx.status(401);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
@@ -91,7 +91,7 @@ public class AccountEndpoints {
      * Gets the account owning the session
      * 
      * @input json => {session: (session)}
-     * @returns json => JSON(User.class).toString()
+     * @returns json => JSON(User.class)
      */
     public Handler getAccount = (ctx) -> {
         try {

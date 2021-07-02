@@ -6,10 +6,10 @@ import java.util.UUID;
 
 import dev.marker.daos.UserDao;
 import dev.marker.entities.User;
-import dev.marker.exceptions.DuplicateUser;
+import dev.marker.exceptions.DuplicationException;
 import dev.marker.exceptions.IncorrectArguments;
 import dev.marker.exceptions.InvalidSession;
-import dev.marker.exceptions.UserDoesntExist;
+import dev.marker.exceptions.ResourceNotFound;
 
 public class AccountServiceImpl implements AccountService {
 
@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String createAccount(String username, String password, String firstName, String lastName, String gender,
-            int age, int height, int weight, boolean admin) throws DuplicateUser, IncorrectArguments {
+            int age, int height, int weight, boolean admin) throws DuplicationException, IncorrectArguments {
 
         StringBuilder errorMessage = new StringBuilder();
         if (username == null || username.length() == 0)
@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
         User load = new User(username, password, firstName, lastName, gender, age, height, weight, admin);
         User user = userDao.createUser(load);
         if (user == null)
-            throw new DuplicateUser(String.format("Username '%s' already taken", username));
+            throw new DuplicationException(String.format("Username '%s' already taken", username));
         String session = UUID.randomUUID().toString();
         sessions.put(session,
                 new Pair<String, Long>(user.getUsername(), Instant.now().getEpochSecond() + sessionTimeoutInSeconds));
@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String logIn(String username, String password) throws UserDoesntExist, IncorrectArguments {
+    public String logIn(String username, String password) throws ResourceNotFound, IncorrectArguments {
         StringBuilder errorMessage = new StringBuilder();
         if (username == null || username.length() == 0)
             errorMessage.append("Username field is empty\n");
@@ -59,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
             throw new IncorrectArguments(errorMessage.toString());
         User user = userDao.getUser(username);
         if (user == null)
-            throw new UserDoesntExist("User with those credientials couldn't be found");
+            throw new ResourceNotFound("User with those credientials couldn't be found");
         String session = UUID.randomUUID().toString();
         sessions.put(session,
                 new Pair<String, Long>(user.getUsername(), Instant.now().getEpochSecond() + sessionTimeoutInSeconds));

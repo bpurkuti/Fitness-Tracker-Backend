@@ -128,7 +128,7 @@ public class RoutineServiceTests {
     @Test(dependsOnMethods = { "createValidRoutine" })
     void updateValidRoutine() {
         try {
-            routine = routineService.updateRoutine(user, routine.getRoutineId(), "Updated Routine", 2000);
+            routine = routineService.updateRoutine(user, routine.getRoutineId(), "Updated Routine", 2000, 0);
             Assert.assertEquals(routine.getRoutineName(), "Updated Routine");
         } catch (PermissionException | IncorrectArguments | ResourceNotFound e) {
             Assert.assertFalse(true);
@@ -138,7 +138,7 @@ public class RoutineServiceTests {
     @Test(dependsOnMethods = { "createValidRoutine" })
     void updateInvalidRoutine() {
         try {
-            routineService.updateRoutine(userFail, routine.getRoutineId(), "Updated Routine", 2000);
+            routineService.updateRoutine(userFail, routine.getRoutineId(), "Updated Routine", 2000, 0);
             Assert.assertFalse(true);
         } catch (PermissionException e) {
             Assert.assertTrue(true);
@@ -148,7 +148,7 @@ public class RoutineServiceTests {
             Assert.assertFalse(true);
         }
         try {
-            routineService.updateRoutine(user, 0, "Updated Routine", 2000);
+            routineService.updateRoutine(user, 0, "Updated Routine", 2000, 0);
             Assert.assertFalse(true);
         } catch (PermissionException e) {
             Assert.assertFalse(true);
@@ -158,7 +158,17 @@ public class RoutineServiceTests {
             Assert.assertFalse(true);
         }
         try {
-            routineService.updateRoutine(user, routine.getRoutineId(), "Updated Routine", 0);
+            routineService.updateRoutine(user, routine.getRoutineId(), "Updated Routine", 0, 0);
+            Assert.assertFalse(true);
+        } catch (PermissionException e) {
+            Assert.assertFalse(true);
+        } catch (ResourceNotFound e) {
+            Assert.assertFalse(true);
+        } catch (IncorrectArguments e) {
+            Assert.assertTrue(true);
+        }
+        try {
+            routineService.updateRoutine(user, routine.getRoutineId(), "Updated Routine", 2000, 0);
             Assert.assertFalse(true);
         } catch (PermissionException e) {
             Assert.assertFalse(true);

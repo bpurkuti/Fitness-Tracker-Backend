@@ -16,7 +16,7 @@ public interface RoutineService {
 
     public abstract List<Routine> getAllRoutinesForUser(User user);
 
-    public abstract Routine updateRoutine(User user, int routineId, String routineName, int dateScheduled) throws PermissionException, IncorrectArguments, ResourceNotFound;
+    public abstract Routine updateRoutine(User user, int routineId, String routineName, int dateScheduled, int dateCompleted) throws PermissionException, IncorrectArguments, ResourceNotFound;
 
     public abstract boolean deleteRoutine(User user, int routineId) throws PermissionException, ResourceNotFound;
 

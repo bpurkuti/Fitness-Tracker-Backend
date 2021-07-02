@@ -47,15 +47,20 @@ public class RoutineServiceImpl implements RoutineService {
     }
 
     @Override
-    public Routine updateRoutine(User user, int routineId, String routineName, int dateScheduled)
+    public Routine updateRoutine(User user, int routineId, String routineName, int dateScheduled, int dateCompleted)
             throws PermissionException, IncorrectArguments, ResourceNotFound {
         Routine routine = this.routineDao.getRoutine(routineId);
         if(routine == null)
             throw new ResourceNotFound(String.format("Routine with id %d couldn't be found", routineId));
         if(!routine.getUsername().equals(user.getUsername()))
             throw new PermissionException("You dont have access to this routine");
+        StringBuilder error = new StringBuilder();
         if(dateScheduled <= 0)
-            throw new IncorrectArguments("A valid scheduled date must be set");
+            error.append("A valid scheduled date must be set\n");
+        if(dateCompleted != 0 && dateCompleted < dateScheduled)
+            error.append("A valid completion date must be set\n");
+        if(error.length() > 0)
+            throw new IncorrectArguments(error.toString());
         if(routineName != null && routineName.length() > 0)
             routine.setRoutineName(routineName);
         routine.setDateScheduled(dateScheduled);
