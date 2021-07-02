@@ -134,7 +134,7 @@ public class RoutineEndpoints {
     /**
      * Deletes a routine
      * 
-     * @input json => {"routineId": (routineId), session: (session)} 
+     * @input json => {"routineId": (routineId), session: (session)}
      * @returns json => None
      */
     public Handler deleteRoutine = (ctx) -> {
