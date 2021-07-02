@@ -1,30 +1,32 @@
 package dev.marker;
 
-import dev.marker.daos.ExerciseDaoPostgres;
-import dev.marker.daos.RoutineDaoPostgres;
-import dev.marker.daos.UserDaoPostgres;
+import dev.marker.daos.*;
 import dev.marker.endpoints.AccountEndpoints;
 import dev.marker.endpoints.ExerciseEndpoints;
 import dev.marker.endpoints.RoutineEndpoints;
-import dev.marker.services.AccountService;
-import dev.marker.services.AccountServiceImpl;
-import dev.marker.services.ExerciseService;
-import dev.marker.services.ExerciseServiceImpl;
-import dev.marker.services.RoutineService;
-import dev.marker.services.RoutineServiceImpl;
+import dev.marker.endpoints.RoutineExerciseEndpoints;
+import dev.marker.services.*;
 import io.javalin.Javalin;
 
 public class App {
 
     public static void main(String[] args) {
 
-        Javalin app = Javalin.create();
+        Javalin app = Javalin.create(config -> {
+            config.enableCorsForAllOrigins();
+            config.enableDevLogging();
+        });
+
+            RoutineDao routineDao = new RoutineDaoPostgres("test_routines");
         AccountService accountService = new AccountServiceImpl(new UserDaoPostgres("test_users"), 86400); // 86400 seconds = 24 hours
-        RoutineService routineService = new RoutineServiceImpl(new RoutineDaoPostgres("test_routines"));
+        RoutineService routineService = new RoutineServiceImpl(routineDao);
         ExerciseService exerciseService = new ExerciseServiceImpl(new ExerciseDaoPostgres("test_exercises"));
         AccountEndpoints accountEndpoints = new AccountEndpoints(accountService);
         RoutineEndpoints routineEndpoints = new RoutineEndpoints(routineService, accountService);
         ExerciseEndpoints exerciseEndpoints = new ExerciseEndpoints(exerciseService, accountService);
+        RoutineExerciseService routineExerciseService = new RoutineExerciseServiceImpl(new RoutineExerciseDaoPostgres("test_routine_exercises"), routineDao);
+        RoutineExerciseEndpoints routineExerciseEndpoints = new RoutineExerciseEndpoints(routineExerciseService, accountService);
+
         app.post("/createAccount", accountEndpoints.createAccount);
         app.post("/loginAccount", accountEndpoints.loginAccount);
         app.post("/logoutAccount", accountEndpoints.logoutAccount);
@@ -41,6 +43,12 @@ public class App {
         app.post("/getAllExercises", exerciseEndpoints.getAllExercises);
         app.patch("/updateExercise", exerciseEndpoints.updateExercise);
         app.delete("/deleteExercise", exerciseEndpoints.deleteExercise);
+
+        app.post("/createRoutineExercise", routineEndpoints.createRoutine);
+        app.post("/getRoutineExercise", routineEndpoints.getRoutineById);
+        app.post("/getAllExercisesInRoutine", routineEndpoints.getRoutinesForUser);
+        app.patch("/updateRoutineExercise", routineEndpoints.updateRoutine);
+        app.delete("/deleteRoutineExercise", routineEndpoints.deleteRoutine);
 
         app.start();
 
