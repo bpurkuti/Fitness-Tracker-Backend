@@ -10,6 +10,7 @@ import dev.marker.exceptions.DuplicationException;
 import dev.marker.exceptions.IncorrectArguments;
 import dev.marker.exceptions.PermissionException;
 import dev.marker.exceptions.ResourceNotFound;
+import dev.marker.exceptions.InvalidSession;
 import dev.marker.services.AccountService;
 import dev.marker.services.ExerciseService;
 import io.javalin.http.Handler;
@@ -48,6 +49,9 @@ public class ExerciseEndpoints {
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
             ctx.status(206);
+            ctx.result(e.getMessage());
+        } catch (InvalidSession e) {
+            ctx.status(401);
             ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,6 +118,9 @@ public class ExerciseEndpoints {
         } catch (IncorrectArguments e) {
             ctx.status(206);
             ctx.result(e.getMessage());
+        } catch (InvalidSession e) {
+            ctx.status(401);
+            ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             ctx.status(500);
@@ -141,7 +148,10 @@ public class ExerciseEndpoints {
         } catch (PermissionException e) {
             ctx.status(403);
             ctx.result(e.getMessage());
-        } catch (Exception e) {
+        } catch (InvalidSession e) {
+            ctx.status(401);
+            ctx.result(e.getMessage());
+        }  catch (Exception e) {
             e.printStackTrace();
             ctx.status(500);
             ctx.result("The server encountered an error");
