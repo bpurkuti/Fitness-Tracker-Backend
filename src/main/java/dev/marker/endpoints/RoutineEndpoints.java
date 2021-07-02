@@ -25,7 +25,7 @@ public class RoutineEndpoints {
      * Creates a routine
      * 
      * @input json => {JSON(Routine.class), session: (session)} 
-     * @returns json => {session: (session)}
+     * @returns json => {JSON(Routine.class)}
      */
     public Handler createRoutine = (ctx) -> {
         try {
@@ -51,7 +51,7 @@ public class RoutineEndpoints {
     /**
      * Gets a routine based on id
      * 
-     * @input json => {JSON(Routine.class), session: (session)} 
+     * @input json => {"routineId": (routineId), session: (session)} 
      * @returns json => JSON(Routine.class)
      */
     public Handler getRoutineById = (ctx) -> {
@@ -112,7 +112,7 @@ public class RoutineEndpoints {
             Session session = this.gson.fromJson(ctx.body(), Session.class);
             Routine routine = this.gson.fromJson(ctx.body(), Routine.class);
             User user = this.accountService.getUser(session.getSession());
-            routine = this.routineService.updateRoutine(user, routine.getRoutineId(), routine.getRoutineName(), routine.getDateScheduled());
+            routine = this.routineService.updateRoutine(user, routine.getRoutineId(), routine.getRoutineName(), routine.getDateScheduled(), routine.getDateCompleted());
             ctx.status(201);
             ctx.result(this.gson.toJson(routine));
         } catch (InvalidSession e) {
@@ -134,7 +134,7 @@ public class RoutineEndpoints {
     /**
      * Deletes a routine
      * 
-     * @input json => {JSON(Routine.class), session: (session)} 
+     * @input json => {"routineId": (routineId), session: (session)} 
      * @returns json => None
      */
     public Handler deleteRoutine = (ctx) -> {

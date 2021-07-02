@@ -11,10 +11,10 @@ import org.testng.annotations.Test;
 
 import dev.marker.daos.UserDaoPostgres;
 import dev.marker.entities.User;
-import dev.marker.exceptions.DuplicateUser;
+import dev.marker.exceptions.DuplicationException;
 import dev.marker.exceptions.IncorrectArguments;
 import dev.marker.exceptions.InvalidSession;
-import dev.marker.exceptions.UserDoesntExist;
+import dev.marker.exceptions.ResourceNotFound;
 import dev.marker.services.AccountService;
 import dev.marker.services.AccountServiceImpl;
 import dev.marker.utils.ConnectionUtil;
@@ -56,7 +56,7 @@ public class AccountServiceTests {
             User user = accountService.getUser(session);
             Assert.assertEquals(user.getFirstName(), "John");
             Assert.assertEquals(user.getLastName(), "Doe");
-        } catch (InvalidSession | DuplicateUser | IncorrectArguments e) {
+        } catch (InvalidSession | DuplicationException | IncorrectArguments e) {
             Assert.assertFalse(true);
         }
         accountService.logOut(session);
@@ -77,7 +77,7 @@ public class AccountServiceTests {
         catch(IncorrectArguments e){
             Assert.assertTrue(true);
         }
-        catch (DuplicateUser e) {
+        catch (DuplicationException e) {
             Assert.assertFalse(true);
         }
         try {
@@ -87,7 +87,7 @@ public class AccountServiceTests {
         catch(IncorrectArguments e){
             Assert.assertTrue(true);
         }
-        catch (DuplicateUser e) {
+        catch (DuplicationException e) {
             Assert.assertFalse(true);
         }
         try {
@@ -97,7 +97,7 @@ public class AccountServiceTests {
         catch(IncorrectArguments e){
             Assert.assertTrue(true);
         }
-        catch (DuplicateUser e) {
+        catch (DuplicationException e) {
             Assert.assertFalse(true);
         }
         try {
@@ -107,7 +107,7 @@ public class AccountServiceTests {
         catch(IncorrectArguments e){
             Assert.assertTrue(true);
         }
-        catch (DuplicateUser e) {
+        catch (DuplicationException e) {
             Assert.assertFalse(true);
         }
     }
@@ -119,7 +119,7 @@ public class AccountServiceTests {
         } catch (IncorrectArguments e) {
             Assert.assertFalse(true);
         }
-        catch(DuplicateUser e){
+        catch(DuplicationException e){
             Assert.assertTrue(true);
         }
     }
@@ -134,7 +134,7 @@ public class AccountServiceTests {
             User user = accountService.getUser(session);
             Assert.assertEquals(user.getFirstName(), "John");
             Assert.assertEquals(user.getLastName(), "Doe");
-        } catch (InvalidSession | UserDoesntExist | IncorrectArguments e) {
+        } catch (InvalidSession | ResourceNotFound | IncorrectArguments e) {
             Assert.assertFalse(true);
         }
         accountService.logOut(session);
@@ -150,7 +150,7 @@ public class AccountServiceTests {
     void logInAccountMissingParamsFailure() {
         try {
             accountService.logIn(null, "testPass");
-        } catch (UserDoesntExist e) {
+        } catch (ResourceNotFound e) {
             Assert.assertFalse(true);
         }
         catch(IncorrectArguments e){
@@ -158,7 +158,7 @@ public class AccountServiceTests {
         }
         try {
             accountService.logIn("testUser", null);
-        } catch (UserDoesntExist e) {
+        } catch (ResourceNotFound e) {
             Assert.assertFalse(true);
         }
         catch(IncorrectArguments e){
