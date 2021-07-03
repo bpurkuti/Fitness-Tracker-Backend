@@ -35,7 +35,7 @@ public abstract class Setup {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        sql = "CREATE TABLE IF NOT EXISTS test_routines(\"routine_id\" SERIAL PRIMARY KEY,\"username\" citext NOT NULL,\"routine_name\" VARCHAR(64) NOT NULL,\"date_scheduled\" INT,\"date_completed\" INT, FOREIGN KEY (\"username\") REFERENCES test_users(\"username\") ON DELETE CASCADE);";
+        sql = "CREATE TABLE IF NOT EXISTS %s(\"routine_id\" SERIAL PRIMARY KEY,\"username\" citext NOT NULL,\"routine_name\" VARCHAR(64) NOT NULL,\"date_scheduled\" INT,\"date_completed\" INT, FOREIGN KEY (\"username\") REFERENCES %s(\"username\") ON DELETE CASCADE);";
         sql = String.format(sql, routineTable, userTable);
         try (Connection connection = ConnectionUtil.createConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);
