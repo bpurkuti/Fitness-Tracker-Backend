@@ -13,6 +13,7 @@ import dev.marker.daos.ExerciseDao;
 import dev.marker.daos.ExerciseDaoPostgres;
 import dev.marker.entities.Exercise;
 import dev.marker.utils.ConnectionUtil;
+import dev.marker.utils.Setup;
 
 public class ExerciseDaoTests {
 
@@ -22,6 +23,10 @@ public class ExerciseDaoTests {
 
     @BeforeClass
     void setupConnection(){
+        ConnectionUtil.setHostname("revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com");
+        ConnectionUtil.setUsername("revature");
+        ConnectionUtil.setPassword("revature");
+        Setup.setupTables("test_users", tableName, "test_routines", "test_routine_exercises");
         connection = ConnectionUtil.createConnection();
     }
 

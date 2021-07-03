@@ -10,12 +10,11 @@ public interface AccountService {
 
     public abstract String createAccount(String username, String password, String firstName, String lastName, String gender, int age, int height, int weight, boolean admin) throws DuplicationException, IncorrectArguments;
 
-    public abstract String logIn(String username, String password) throws ResourceNotFound, IncorrectArguments;
+    public abstract String logIn(String username, String password) throws ResourceNotFound;
 
     public abstract void logOut(String session);
 
     public abstract User getUser(String session) throws InvalidSession;
 
-    //May or may not be used;
-    public abstract User updateUser(String session, String password, String firstName, String lastName, String gender, int age, int height, int weight, boolean admin) throws InvalidSession;
+    public abstract User updateUser(String session, String password, String firstName, String lastName, String gender, int age, int height, int weight) throws InvalidSession, IncorrectArguments;
 }
