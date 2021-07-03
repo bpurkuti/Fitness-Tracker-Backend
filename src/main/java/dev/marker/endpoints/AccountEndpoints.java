@@ -20,7 +20,7 @@ public class AccountEndpoints {
      * Creates an account using the specified values
      * 
      * @input json => JSON(User.class)
-     * @returns json => {session: (session)}
+     * @returns json => {"session": (session)}
      */
     public Handler createAccount = (ctx) -> {
         try {
@@ -34,7 +34,7 @@ public class AccountEndpoints {
             ctx.status(409);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
-            ctx.status(206);
+            ctx.status(400);
             ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class AccountEndpoints {
      * Logs into an existing account
      * 
      * @input json => {"username": (username), "password": (password)}
-     * @returns json => {session: (session)}
+     * @returns json => {"session": (session)}
      */
     public Handler loginAccount = (ctx) -> {
         try {
@@ -56,10 +56,7 @@ public class AccountEndpoints {
             ctx.status(200);
             ctx.result(this.gson.toJson(session));
         } catch (ResourceNotFound e) {
-            ctx.status(401);
-            ctx.result(e.getMessage());
-        } catch (IncorrectArguments e) {
-            ctx.status(206);
+            ctx.status(404);
             ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,9 +85,35 @@ public class AccountEndpoints {
     };
 
     /**
+     * Updates an account
+     * 
+     * @input json => {JSON(User.class), "session": (session)}
+     * @returns json => JSON(User.class)
+     */
+    public Handler updateAccount = (ctx) -> {
+        try {
+            User user = this.gson.fromJson(ctx.body(), User.class);
+            Session session = this.gson.fromJson(ctx.body(), Session.class);
+            user = accountService.updateUser(session.getSession(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getGender(), user.getAge(), user.getHeight(), user.getWeight());
+            ctx.status(200);
+            ctx.result(this.gson.toJson(user));
+        } catch (InvalidSession e) {
+            ctx.status(401);
+            ctx.result(e.getMessage());
+        }  catch (IncorrectArguments e) {
+            ctx.status(400);
+            ctx.result(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(500);
+            ctx.result("The server encountered an error");
+        }
+    };
+
+    /**
      * Gets the account owning the session
      * 
-     * @input json => {session: (session)}
+     * @input json => {"session": (session)}
      * @returns json => JSON(User.class)
      */
     public Handler getAccount = (ctx) -> {

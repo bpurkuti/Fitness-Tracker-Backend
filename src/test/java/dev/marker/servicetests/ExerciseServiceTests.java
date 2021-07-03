@@ -10,6 +10,7 @@ import dev.marker.services.ExerciseService;
 import dev.marker.daos.ExerciseDaoPostgres;
 import dev.marker.services.ExerciseServiceImpl;
 import dev.marker.utils.ConnectionUtil;
+import dev.marker.utils.Setup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,6 +33,10 @@ public class ExerciseServiceTests {
 
     @BeforeClass
     void setup() {
+        ConnectionUtil.setHostname("revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com");
+        ConnectionUtil.setUsername("revature");
+        ConnectionUtil.setPassword("revature");
+        Setup.setupTables("test_users", tableName, "test_routines", "test_routine_exercises");
         connection = ConnectionUtil.createConnection();
         try {
             String sql = String.format("DELETE FROM %s", tableName);

@@ -39,7 +39,7 @@ public class RoutineEndpoints {
             ctx.status(401);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
-            ctx.status(206);
+            ctx.status(400);
             ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,7 +113,7 @@ public class RoutineEndpoints {
             Routine routine = this.gson.fromJson(ctx.body(), Routine.class);
             User user = this.accountService.getUser(session.getSession());
             routine = this.routineService.updateRoutine(user, routine.getRoutineId(), routine.getRoutineName(), routine.getDateScheduled(), routine.getDateCompleted());
-            ctx.status(201);
+            ctx.status(200);
             ctx.result(this.gson.toJson(routine));
         } catch (InvalidSession e) {
             ctx.status(401);
@@ -122,7 +122,7 @@ public class RoutineEndpoints {
             ctx.status(403);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
-            ctx.status(206);
+            ctx.status(400);
             ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,7 +143,7 @@ public class RoutineEndpoints {
             Routine routine = this.gson.fromJson(ctx.body(), Routine.class);
             User user = this.accountService.getUser(session.getSession());
             if(this.routineService.deleteRoutine(user, routine.getRoutineId())){
-            ctx.status(201);
+            ctx.status(200);
             ctx.result("");
             }
             else{
@@ -156,7 +156,7 @@ public class RoutineEndpoints {
             ctx.status(403);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
-            ctx.status(206);
+            ctx.status(400);
             ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();

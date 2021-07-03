@@ -29,13 +29,19 @@ public class AccountServiceImpl implements AccountService {
 
         StringBuilder errorMessage = new StringBuilder();
         if (username == null || username.length() == 0)
-            errorMessage.append("Username field is empty.\n");
+            errorMessage.append("Username field is empty\n");
         if (password == null || password.length() == 0)
-            errorMessage.append("Password field is empty.\n");
+            errorMessage.append("Password field is empty\n");
         if (firstName == null || firstName.length() == 0)
-            errorMessage.append("First name field is empty.\n");
+            errorMessage.append("First name field is empty\n");
         if (lastName == null || lastName.length() == 0)
-            errorMessage.append("Last name field is empty.\n");
+            errorMessage.append("Last name field is empty\n");
+        if (age < 0)
+            errorMessage.append("Age cannot be negative\n");
+        if (height < 0)
+            errorMessage.append("Height cannot be negative\n");
+        if (weight < 0)
+            errorMessage.append("Weight cannot be negative\n");
         if (errorMessage.length() != 0)
             throw new IncorrectArguments(errorMessage.toString());
         User load = new User(username, password, firstName, lastName, gender, age, height, weight, admin);
@@ -49,14 +55,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String logIn(String username, String password) throws ResourceNotFound, IncorrectArguments {
+    public String logIn(String username, String password) throws ResourceNotFound {
         StringBuilder errorMessage = new StringBuilder();
         if (username == null || username.length() == 0)
             errorMessage.append("Username field is empty\n");
         if (password == null || password.length() == 0)
             errorMessage.append("Password field is empty\n");
         if (errorMessage.length() != 0)
-            throw new IncorrectArguments(errorMessage.toString());
+            throw new ResourceNotFound(errorMessage.toString());
         User user = userDao.getUser(username);
         if (user == null)
             throw new ResourceNotFound("User with those credientials couldn't be found");
@@ -85,8 +91,32 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public User updateUser(String session, String password, String firstName, String lastName, String gender, int age,
-            int height, int weight, boolean admin) throws InvalidSession {
-        return null;
+            int height, int weight) throws InvalidSession, IncorrectArguments {
+        StringBuilder errorMessage = new StringBuilder();
+        if (password == null || password.length() == 0)
+            errorMessage.append("Password field is empty\n");
+        if (firstName == null || firstName.length() == 0)
+            errorMessage.append("First name field is empty\n");
+        if (lastName == null || lastName.length() == 0)
+            errorMessage.append("Last name field is empty\n");
+        if (age < 0)
+            errorMessage.append("Age cannot be negative\n");
+        if (height < 0)
+            errorMessage.append("Height cannot be negative\n");
+        if (weight < 0)
+            errorMessage.append("Weight cannot be negative\n");
+        if (errorMessage.length() != 0)
+            throw new IncorrectArguments(errorMessage.toString());
+        Pair<String, Long> data = sessions.get(session);
+        if (data == null)
+            throw new InvalidSession("The session is not a valid session");
+        if (data.second < Instant.now().getEpochSecond()) {
+            throw new InvalidSession("The session has expired");
+        }
+        User original = userDao.getUser(data.first);
+        User user = new User(original.getUsername(), password, firstName, lastName, gender, age, height, weight, original.isAdmin());
+        user = userDao.updateUser(user);
+        return user;
     }
 
     private class Pair<T1, T2> {

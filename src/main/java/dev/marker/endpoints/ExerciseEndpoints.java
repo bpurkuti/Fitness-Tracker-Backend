@@ -48,7 +48,7 @@ public class ExerciseEndpoints {
             ctx.status(403);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
-            ctx.status(206);
+            ctx.status(400);
             ctx.result(e.getMessage());
         } catch (InvalidSession e) {
             ctx.status(401);
@@ -73,7 +73,7 @@ public class ExerciseEndpoints {
             ctx.status(200);
             ctx.result(this.gson.toJson(exercise));
         } catch (ResourceNotFound e) {
-            ctx.status(401);
+            ctx.status(404);
             ctx.result(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,9 +89,15 @@ public class ExerciseEndpoints {
      * @returns json => [JSON(Exercise.class), JSON(Exercise.class), ...]
      */
     public Handler getAllExercises = (ctx) -> {
-        List<Exercise> exercises = this.exerciseService.getAllExercises();
-        ctx.status(200);
-        ctx.result(this.gson.toJson(exercises));
+        try {
+            List<Exercise> exercises = this.exerciseService.getAllExercises();
+            ctx.status(200);
+            ctx.result(this.gson.toJson(exercises));
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(500);
+            ctx.result("The server encountered an error");
+        }
     };
 
     /**
@@ -107,16 +113,16 @@ public class ExerciseEndpoints {
             User user = this.accountService.getUser(session.getSession());
             exercise = this.exerciseService.updateExercise(user, exercise.getExerciseName(), exercise.getDescription(),
                     exercise.getType(), exercise.getVideoLink());
-            ctx.status(201);
+            ctx.status(200);
             ctx.result(this.gson.toJson(exercise));
         } catch (ResourceNotFound e) {
-            ctx.status(401);
+            ctx.status(404);
             ctx.result(e.getMessage());
         } catch (PermissionException e) {
             ctx.status(403);
             ctx.result(e.getMessage());
         } catch (IncorrectArguments e) {
-            ctx.status(206);
+            ctx.status(400);
             ctx.result(e.getMessage());
         } catch (InvalidSession e) {
             ctx.status(401);
@@ -140,10 +146,10 @@ public class ExerciseEndpoints {
             Exercise exercise = this.gson.fromJson(ctx.body(), Exercise.class);
             User user = this.accountService.getUser(session.getSession());
             String exerciseStr = this.exerciseService.deleteExercise(user, exercise.getExerciseName());
-            ctx.status(201);
+            ctx.status(200);
             ctx.result(this.gson.toJson(exerciseStr));
         } catch (ResourceNotFound e) {
-            ctx.status(401);
+            ctx.status(404);
             ctx.result(e.getMessage());
         } catch (PermissionException e) {
             ctx.status(403);
@@ -151,7 +157,7 @@ public class ExerciseEndpoints {
         } catch (InvalidSession e) {
             ctx.status(401);
             ctx.result(e.getMessage());
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             ctx.status(500);
             ctx.result("The server encountered an error");

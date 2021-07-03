@@ -77,9 +77,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     public String deleteExercise(User user, String exerciseName) throws ResourceNotFound, PermissionException {
         if (!user.isAdmin())
             throw new PermissionException("You don't have permission to create exercises");
-        Exercise exercise = this.exerciseDao.getExercise(exerciseName);
-        if (exercise == null)
+        exerciseName = this.exerciseDao.deleteExercise(exerciseName);
+        if (exerciseName == null)
             throw new ResourceNotFound(String.format("Exercise %s couldn't be found", exerciseName));
-        return this.exerciseDao.deleteExercise(exerciseName);
+        return exerciseName;
     }
 }

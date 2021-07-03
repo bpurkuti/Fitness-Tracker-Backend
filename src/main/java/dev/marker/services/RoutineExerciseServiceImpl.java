@@ -1,7 +1,6 @@
 package dev.marker.services;
 
 import dev.marker.daos.RoutineExerciseDao;
-import dev.marker.daos.RoutineExerciseDao;
 import dev.marker.daos.RoutineDao;
 import dev.marker.entities.RoutineExercise;
 import dev.marker.exceptions.ResourceNotFound;

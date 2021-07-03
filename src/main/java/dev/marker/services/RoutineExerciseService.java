@@ -1,9 +1,7 @@
 package dev.marker.services;
 
-import dev.marker.daos.RoutineExerciseDaoPostgres;
 import dev.marker.entities.RoutineExercise;
 import dev.marker.entities.User;
-import dev.marker.daos.RoutineExerciseDao;
 import dev.marker.exceptions.PermissionException;
 
 import java.util.List;

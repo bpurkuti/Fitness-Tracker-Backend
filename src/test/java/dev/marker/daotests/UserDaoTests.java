@@ -9,6 +9,7 @@ import dev.marker.daos.UserDao;
 import dev.marker.daos.UserDaoPostgres;
 import dev.marker.entities.User;
 import dev.marker.utils.ConnectionUtil;
+import dev.marker.utils.Setup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,6 +25,10 @@ public class UserDaoTests {
 
     @BeforeClass
     void setupConnection(){
+        ConnectionUtil.setHostname("revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com");
+        ConnectionUtil.setUsername("revature");
+        ConnectionUtil.setPassword("revature");
+        Setup.setupTables(tableName, "test_exercises", "test_routines", "test_routine_exercises");
         connection = ConnectionUtil.createConnection();
     }
 

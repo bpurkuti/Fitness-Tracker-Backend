@@ -11,6 +11,7 @@ import dev.marker.daos.UserDao;
 import dev.marker.daos.UserDaoPostgres;
 import dev.marker.services.RoutineServiceImpl;
 import dev.marker.utils.ConnectionUtil;
+import dev.marker.utils.Setup;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -34,6 +35,10 @@ public class RoutineServiceTests {
 
     @BeforeClass
     void setup() {
+        ConnectionUtil.setHostname("revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com");
+        ConnectionUtil.setUsername("revature");
+        ConnectionUtil.setPassword("revature");
+        Setup.setupTables(userTableName, "test_exercises", routineTableName, "test_routine_exercises");
         connection = ConnectionUtil.createConnection();
         try {
             String sql = String.format("DELETE FROM %s", userTableName);

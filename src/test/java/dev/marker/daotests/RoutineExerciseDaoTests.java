@@ -24,6 +24,7 @@ import dev.marker.entities.Routine;
 import dev.marker.entities.RoutineExercise;
 import dev.marker.entities.User;
 import dev.marker.utils.ConnectionUtil;
+import dev.marker.utils.Setup;
 
 public class RoutineExerciseDaoTests {
 
@@ -43,6 +44,10 @@ public class RoutineExerciseDaoTests {
 
     @BeforeClass
     void testInit(){
+        ConnectionUtil.setHostname("revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com");
+        ConnectionUtil.setUsername("revature");
+        ConnectionUtil.setPassword("revature");
+        Setup.setupTables(userTableName, exerciseTableName, routineTableName, routineExerciseTableName);
         connection = ConnectionUtil.createConnection();
         try{
             String sql = String.format("DELETE FROM %s", userTableName);

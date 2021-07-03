@@ -18,6 +18,7 @@ import dev.marker.exceptions.ResourceNotFound;
 import dev.marker.services.AccountService;
 import dev.marker.services.AccountServiceImpl;
 import dev.marker.utils.ConnectionUtil;
+import dev.marker.utils.Setup;
 
 public class AccountServiceTests {
 
@@ -27,6 +28,10 @@ public class AccountServiceTests {
 
     @BeforeClass
     void setup() {
+        ConnectionUtil.setHostname("revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com");
+        ConnectionUtil.setUsername("revature");
+        ConnectionUtil.setPassword("revature");
+        Setup.setupTables(tableName, "test_exercises", "test_routines", "test_routine_exercises");
         connection = ConnectionUtil.createConnection();
         try {
             String sql = String.format("DELETE FROM %s", tableName);
@@ -110,12 +115,39 @@ public class AccountServiceTests {
         catch (DuplicationException e) {
             Assert.assertFalse(true);
         }
-    }
-
-    @Test(dependsOnMethods = { "createAccountAndLogOutSuccess" })
-    void createDuplicateAccountFailure() {
+        try {
+            accountService.createAccount("testUser", "testPass", "John", "Doe", "Male", -1, 10, 10, false);
+            Assert.assertFalse(true);
+        } 
+        catch(IncorrectArguments e){
+            Assert.assertTrue(true);
+        }
+        catch (DuplicationException e) {
+            Assert.assertFalse(true);
+        }
+        try {
+            accountService.createAccount("testUser", "testPass", "John", "Doe", "Male", 10, -1, 10, false);
+            Assert.assertFalse(true);
+        } 
+        catch(IncorrectArguments e){
+            Assert.assertTrue(true);
+        }
+        catch (DuplicationException e) {
+            Assert.assertFalse(true);
+        }
+        try {
+            accountService.createAccount("testUser", "testPass", "John", "Doe", "Male", 10, 10, -1, false);
+            Assert.assertFalse(true);
+        } 
+        catch(IncorrectArguments e){
+            Assert.assertTrue(true);
+        }
+        catch (DuplicationException e) {
+            Assert.assertFalse(true);
+        }
         try {
             accountService.createAccount("testUser", "testPass", "John", "Doe", "Male", 10, 10, 10, false);
+            Assert.assertFalse(true);
         } catch (IncorrectArguments e) {
             Assert.assertFalse(true);
         }
@@ -134,7 +166,7 @@ public class AccountServiceTests {
             User user = accountService.getUser(session);
             Assert.assertEquals(user.getFirstName(), "John");
             Assert.assertEquals(user.getLastName(), "Doe");
-        } catch (InvalidSession | ResourceNotFound | IncorrectArguments e) {
+        } catch (InvalidSession | ResourceNotFound e) {
             Assert.assertFalse(true);
         }
         accountService.logOut(session);
@@ -150,19 +182,103 @@ public class AccountServiceTests {
     void logInAccountMissingParamsFailure() {
         try {
             accountService.logIn(null, "testPass");
-        } catch (ResourceNotFound e) {
             Assert.assertFalse(true);
-        }
-        catch(IncorrectArguments e){
+        } catch (ResourceNotFound e) {
             Assert.assertTrue(true);
         }
         try {
             accountService.logIn("testUser", null);
+            Assert.assertFalse(true);
+        } catch (ResourceNotFound e) {
+            Assert.assertTrue(true);
+        }
+    }
+
+    @Test(dependsOnMethods = { "createAccountAndLogOutSuccess" , "logInAndOutOfAccountSuccess"})
+    void logInAccountAndUpdateSuccess() {
+        String session = null;
+        try {
+            session = accountService.logIn("testUser", "testPass");
         } catch (ResourceNotFound e) {
             Assert.assertFalse(true);
         }
-        catch(IncorrectArguments e){
+        try {
+            User user = accountService.updateUser(session, "newPass", "newFirst", "newLast", "newGen", 1000, 1000, 1000);
+            Assert.assertEquals(user.getPassword(), "newPass");
+            Assert.assertEquals(user.getFirstName(), "newFirst");
+            Assert.assertEquals(user.getLastName(), "newLast");
+            Assert.assertEquals(user.getGender(), "newGen");
+            Assert.assertEquals(user.getAge(), 1000);
+            Assert.assertEquals(user.getHeight(), 1000);
+            Assert.assertEquals(user.getWeight(), 1000);
+        } catch (InvalidSession | IncorrectArguments e) {
+            Assert.assertFalse(true);
+        }
+    }
+
+    @Test(dependsOnMethods = { "createAccountAndLogOutSuccess" })
+    void logInAccountAndUpdateFailure() {
+        String session = null;
+        try {
+            session = accountService.logIn("testUser", "testPass");
+        } catch (ResourceNotFound e) {
+            Assert.assertFalse(true);
+        }
+        try {
+            accountService.updateUser(session, null, "newFirst", "newLast", "newGen", 1000, 1000, 1000);
+            Assert.assertFalse(true);
+        } catch (InvalidSession e) {
+            Assert.assertFalse(true);
+        } catch (IncorrectArguments e) {
             Assert.assertTrue(true);
+        }
+        try {
+            accountService.updateUser(session, "newPass", null, "newLast", "newGen", 1000, 1000, 1000);
+            Assert.assertFalse(true);
+        } catch (InvalidSession e) {
+            Assert.assertFalse(true);
+        } catch (IncorrectArguments e) {
+            Assert.assertTrue(true);
+        }
+        try {
+            accountService.updateUser(session, "newPass", "newFirst", null, "newGen", 1000, 1000, 1000);
+            Assert.assertFalse(true);
+        } catch (InvalidSession e) {
+            Assert.assertFalse(true);
+        } catch (IncorrectArguments e) {
+            Assert.assertTrue(true);
+        }
+        try {
+            accountService.updateUser(session, "newPass", "newFirst", "newLast", "newGen", -1, 1000, 1000);
+            Assert.assertFalse(true);
+        } catch (InvalidSession e) {
+            Assert.assertFalse(true);
+        } catch (IncorrectArguments e) {
+            Assert.assertTrue(true);
+        }
+        try {
+            accountService.updateUser(session, "newPass", "newFirst", "newLast", "newGen", 1000, -1, 1000);
+            Assert.assertFalse(true);
+        } catch (InvalidSession e) {
+            Assert.assertFalse(true);
+        } catch (IncorrectArguments e) {
+            Assert.assertTrue(true);
+        }
+        try {
+            accountService.updateUser(session, "newPass", "newFirst", "newLast", "newGen", 1000, 1000, -1);
+            Assert.assertFalse(true);
+        } catch (InvalidSession e) {
+            Assert.assertFalse(true);
+        } catch (IncorrectArguments e) {
+            Assert.assertTrue(true);
+        }
+        try {
+            accountService.updateUser(null, "newPass", "newFirst", "newLast", "newGen", 1000, 1000, 1000);
+            Assert.assertFalse(true);
+        } catch (InvalidSession e) {
+            Assert.assertTrue(true);
+        } catch (IncorrectArguments e) {
+            Assert.assertFalse(true);
         }
     }
 }
