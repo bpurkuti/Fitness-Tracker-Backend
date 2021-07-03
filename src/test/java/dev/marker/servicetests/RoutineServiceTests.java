@@ -172,16 +172,6 @@ public class RoutineServiceTests {
         } catch (IncorrectArguments e) {
             Assert.assertTrue(true);
         }
-        try {
-            routineService.updateRoutine(user, routine.getRoutineId(), "Updated Routine", 2000, 0);
-            Assert.assertFalse(true);
-        } catch (PermissionException e) {
-            Assert.assertFalse(true);
-        } catch (ResourceNotFound e) {
-            Assert.assertFalse(true);
-        } catch (IncorrectArguments e) {
-            Assert.assertTrue(true);
-        }
     }
 
     @Test(dependsOnMethods = { "createValidRoutine" })

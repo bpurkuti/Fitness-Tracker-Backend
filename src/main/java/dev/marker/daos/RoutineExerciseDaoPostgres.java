@@ -97,7 +97,7 @@ public class RoutineExerciseDaoPostgres implements RoutineExerciseDao {
     @Override
     public RoutineExercise updateExercise(RoutineExercise routineExercise) {
         String sql = String.format(
-                "UPDATE %s SET exercise_name = ?, routine_id = ?, duration = ?, reps = ?, weight = ? WHERE routine_id = ?",
+                "UPDATE %s SET exercise_name = ?, routine_id = ?, duration = ?, reps = ?, weight = ? WHERE routine_exercise_id = ?",
                 this.tableName);
         try (Connection connection = ConnectionUtil.createConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);

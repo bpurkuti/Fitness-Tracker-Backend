@@ -26,7 +26,7 @@ public class RoutineDaoTests {
 
     private static String userTableName = "test_users";
     private static String routineTableName = "test_routines";
-    static UserDao userDao = new UserDaoPostgres(userTableName);
+    private static UserDao userDao = new UserDaoPostgres(userTableName);
     private static RoutineDao routineDao = new RoutineDaoPostgres(routineTableName);
     private static Connection connection;
 
