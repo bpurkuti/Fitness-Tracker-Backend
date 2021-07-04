@@ -19,6 +19,15 @@ public abstract class Setup {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        sql = String.format("CREATE EXTENSION IF NOT EXISTS pgcrypto;");
+        try (Connection connection = ConnectionUtil.createConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         sql = "CREATE TABLE IF NOT EXISTS %s(\"username\" citext primary key, \"password\" VARCHAR(64) NOT NULL,\"first_name\" VARCHAR(64),\"last_name\" VARCHAR(64),\"gender\" VARCHAR(64),\"age\" INT,\"height\" INT,\"weight\" INT,\"admin\" BOOLEAN);";
         sql = String.format(sql, userTable);
         try (Connection connection = ConnectionUtil.createConnection()) {
