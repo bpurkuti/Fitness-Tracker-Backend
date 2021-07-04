@@ -1,5 +1,8 @@
-CREATE TABLE test_users(  
-    "username" VARCHAR(64) primary key,
+CREATE EXTENSION IF NOT EXISTS citext;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+CREATE TABLE test_users(
+    "username" citext primary key,
     "password" VARCHAR(64) NOT NULL,
     "first_name" VARCHAR(64),
     "last_name" VARCHAR(64),
@@ -19,7 +22,7 @@ CREATE TABLE test_exercises(
 
 CREATE TABLE test_routines(  
     "routine_id" SERIAL PRIMARY KEY,
-    "username" VARCHAR(64) NOT NULL,
+    "username" citext NOT NULL,
     "routine_name" VARCHAR(64) NOT NULL,
     "date_scheduled" INT,
     "date_completed" INT,
