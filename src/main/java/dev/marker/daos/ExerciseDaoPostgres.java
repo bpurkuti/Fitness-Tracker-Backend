@@ -30,8 +30,8 @@ public class ExerciseDaoPostgres implements ExerciseDao{
     @Override
     public Exercise createExercise(Exercise exercise) {
         String sql = String.format("INSERT INTO %s (exercise_name, description, type, video_link) VALUES (?,?,?,?)", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             ps.setString(1, exercise.getExerciseName());
             ps.setString(2, exercise.getDescription());
             ps.setString(3, exercise.getType());
@@ -48,8 +48,8 @@ public class ExerciseDaoPostgres implements ExerciseDao{
     @Override
     public Exercise getExercise(String exerciseName) {
         String sql = String.format("SELECT * FROM %s WHERE exercise_name = ?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setString(1,exerciseName);
             Exercise exercise = new Exercise();
             ResultSet rs = ps.executeQuery();
@@ -58,19 +58,23 @@ public class ExerciseDaoPostgres implements ExerciseDao{
             exercise.setDescription(rs.getString("description"));
             exercise.setType(rs.getString("type"));
             exercise.setVideoLink(rs.getString("video_link"));
+
             return exercise;
+
         }
         catch(SQLException e){
             return null;
         }
+
     }
 
     @Override
     public List<Exercise> getAllExercises() {
         String sql = String.format("SELECT * FROM %s", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
+        try(Connection connection = ConnectionUtil.createConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery()){
+
             ArrayList<Exercise> exercises = new ArrayList<Exercise>();
             while(rs.next()){
                 Exercise exercise = new Exercise();
@@ -80,6 +84,7 @@ public class ExerciseDaoPostgres implements ExerciseDao{
                 exercise.setVideoLink(rs.getString("video_link"));
                 exercises.add(exercise);
             }
+            rs.close();
             return exercises;
         }
         catch(SQLException e){
@@ -90,8 +95,9 @@ public class ExerciseDaoPostgres implements ExerciseDao{
     @Override
     public Exercise updateExercise(Exercise exercise) {
         String sql = String.format("UPDATE %s SET description=?, type=?, video_link=? WHERE exercise_name=?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setString(1, exercise.getDescription());
             ps.setString(2, exercise.getType());
             ps.setString(3, exercise.getVideoLink());
@@ -110,8 +116,9 @@ public class ExerciseDaoPostgres implements ExerciseDao{
     @Override
     public String deleteExercise(String exerciseName) {
         String sql = String.format("DELETE FROM %s WHERE exercise_name = ?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setString(1, exerciseName);
             int rowsChanged = ps.executeUpdate();
             if(rowsChanged == 0)

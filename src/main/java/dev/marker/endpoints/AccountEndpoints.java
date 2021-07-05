@@ -114,7 +114,7 @@ public class AccountEndpoints {
      * Gets the account owning the session
      * 
      * @input json => {"session": (session)}
-     * @returns json => JSON(User.class)
+     * @returns json => [JSON(routineExercise.class), JSON(routineExercise.class), ...]
      */
     public Handler getAccount = (ctx) -> {
         try {

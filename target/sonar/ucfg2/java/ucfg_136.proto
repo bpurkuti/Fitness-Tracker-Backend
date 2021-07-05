@@ -1,0 +1,129 @@
+
+9dev.marker.entities.Exercise#toString()Ljava/lang/String;e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java4 4("1*Ï
+1e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 5(¯
+¬
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 6( 
+%0java.lang.String"__concat*
+	Exercise{*
+exerciseName='¼
+¹
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java6# 6(/
+%1java.lang.String"__id*2*0
+dev.marker.entities.Exercise"
+exerciseNameÀ
+½
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 6(/
+%2java.lang.String"__concat*
+
+%0java.lang.String*
+
+%1java.lang.String®
+«
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 6(6
+%3java.lang.String"__concat*
+
+%2java.lang.String*
+\'»
+¸
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 7(!
+%4java.lang.String"__concat*
+
+%3java.lang.String*
+, description='»
+¸
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java7$ 7(/
+%5java.lang.String"__id*1*/
+dev.marker.entities.Exercise"
+descriptionÀ
+½
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 7(/
+%6java.lang.String"__concat*
+
+%4java.lang.String*
+
+%5java.lang.String®
+«
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 7(6
+%7java.lang.String"__concat*
+
+%6java.lang.String*
+\'´
+±
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 8(
+%8java.lang.String"__concat*
+
+%7java.lang.String*
+
+, type='´
+±
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java8 8(!
+%9java.lang.String"__id***(
+dev.marker.entities.Exercise"
+typeÁ
+¾
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 8(!
+%10java.lang.String"__concat*
+
+%8java.lang.String*
+
+%9java.lang.String°
+­
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 8((
+%11java.lang.String"__concat*
+
+%10java.lang.String*
+\'»
+¸
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 9(
+%12java.lang.String"__concat*
+
+%11java.lang.String*
+, videoLink='º
+·
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java9" 9(+
+%13java.lang.String"__id*/*-
+dev.marker.entities.Exercise"
+	videoLinkÃ
+À
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 9(+
+%14java.lang.String"__concat*
+
+%12java.lang.String*
+
+%13java.lang.String°
+­
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 9(2
+%15java.lang.String"__concat*
+
+%14java.lang.String*
+\'¯
+¬
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 :(
+%16java.lang.String"__concat*
+
+%15java.lang.String*
+}"‚
+e
+[C:/Users/arees/Desktop/Work/Project2Backend/src/main/java/dev/marker/entities/Exercise.java5 :(
+
+%16java.lang.StringB 
+dev.marker.entities.Exercise

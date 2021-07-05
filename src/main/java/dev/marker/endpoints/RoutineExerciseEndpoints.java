@@ -17,12 +17,19 @@ public class RoutineExerciseEndpoints {
     AccountService accountService;
     Gson gson;
 
+
     public RoutineExerciseEndpoints(RoutineExerciseService routineExerciseService, AccountService accountService) {
         this.routineExerciseService = routineExerciseService;
         this.accountService = accountService;
         this.gson = new Gson();
     }
 
+    /**
+     * Creates a routine exercise using the specified values
+     *
+     * @input json => {JSON(routineExercise.class), "session": (session)}
+     * @returns json => JSON(routineExercise.class)
+     */
     public Handler createRoutineExercise = ctx -> {
         try {
             Session session = this.gson.fromJson(ctx.body(), Session.class);
@@ -42,6 +49,13 @@ public class RoutineExerciseEndpoints {
             ctx.result("The server encountered an error");
         }
     };
+
+    /**
+     * Gets the routine exercise with the associated ID
+     *
+     * @input json => {"routineExerciseId": (routineExerciseId), session": (session)}
+     * @returns json => JSON(routineExercise.class)
+     */
 
     public Handler getRoutineExercise = ctx -> {
         try {
@@ -66,6 +80,12 @@ public class RoutineExerciseEndpoints {
         }
     };
 
+    /**
+     * Gets all routine exercises for the given routine
+     *
+     * @input json => {"routineId": (routineId), session": (session)}
+     * @returns json => JSON(routineExercise.class)
+     */
     public Handler getAllExercisesInRoutine = ctx -> {
         try {
             Session session = this.gson.fromJson(ctx.body(), Session.class);
@@ -89,6 +109,13 @@ public class RoutineExerciseEndpoints {
         }
     };
 
+    /**
+     * Updates the given routine exercise
+     *
+     * @input json => {JSON(routineExercise.class), session": (session)}
+     * @returns json => JSON(routineExercise.class)
+     */
+
     public Handler updateRoutineExercise = ctx -> {
         try {
             RoutineExercise routineExercise = gson.fromJson(ctx.body(), RoutineExercise.class);
@@ -110,6 +137,13 @@ public class RoutineExerciseEndpoints {
             ctx.result("The server encountered an error");
         }
     };
+
+    /**
+     * Deletes the routine exercise with the associated ID
+     *
+     * @input json => {"routineExerciseId": (routineExerciseId), session": (session)}
+     * @returns json => JSON(routineExercise.class)
+     */
 
     public Handler deleteRoutineExercise = ctx -> {
         try {
