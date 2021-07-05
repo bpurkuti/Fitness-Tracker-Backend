@@ -57,7 +57,7 @@ public class RoutineServiceImpl implements RoutineService {
         StringBuilder error = new StringBuilder();
         if(dateScheduled <= 0)
             error.append("A valid scheduled date must be set\n");
-        if(dateCompleted != 0 && dateCompleted < dateScheduled)
+        if(dateCompleted <= 0)
             error.append("A valid completion date must be set\n");
         if(error.length() > 0)
             throw new IncorrectArguments(error.toString());
