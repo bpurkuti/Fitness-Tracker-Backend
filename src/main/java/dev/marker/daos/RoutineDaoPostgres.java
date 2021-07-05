@@ -30,8 +30,9 @@ public class RoutineDaoPostgres implements RoutineDao{
     @Override
     public Routine createRoutine(Routine routine) {
         String sql = String.format("INSERT INTO %s (username, routine_name, date_scheduled, date_completed) VALUES (?,?,?,?)", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+
             ps.setString(1, routine.getUsername());
             ps.setString(2, routine.getRoutineName());
             ps.setInt(3, routine.getDateScheduled());
@@ -42,6 +43,7 @@ public class RoutineDaoPostgres implements RoutineDao{
                 routine.setRoutineId(rs.getInt("routine_id"));
                 return routine;
             }
+            rs.close();
             return null;
         }
         catch(SQLException e){
@@ -52,8 +54,9 @@ public class RoutineDaoPostgres implements RoutineDao{
     @Override
     public Routine getRoutine(int routineId) {
         String sql = String.format("SELECT * FROM %s WHERE routine_id = ?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setInt(1, routineId);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
@@ -63,11 +66,14 @@ public class RoutineDaoPostgres implements RoutineDao{
                 routine.setRoutineName(rs.getString("routine_name"));
                 routine.setDateScheduled(rs.getInt("date_scheduled"));
                 routine.setDateCompleted(rs.getInt("date_completed"));
+                rs.close();
                 return routine;
             }
             else{
+                rs.close();
                 return null;
             }
+
         }
         catch(SQLException e){
             return null;
@@ -77,9 +83,11 @@ public class RoutineDaoPostgres implements RoutineDao{
     @Override
     public List<Routine> getAllRoutines() {
         String sql = String.format("SELECT * FROM %s", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
+        try(Connection connection = ConnectionUtil.createConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();){
+
+
             ArrayList<Routine> routines = new ArrayList<Routine>();
             while(rs.next()){
                 Routine routine = new Routine();
@@ -100,8 +108,9 @@ public class RoutineDaoPostgres implements RoutineDao{
     @Override
     public List<Routine> getAllRoutinesForUser(String username) {
         String sql = String.format("SELECT * FROM %s WHERE username = ?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             ArrayList<Routine> routines = new ArrayList<Routine>();
@@ -114,6 +123,7 @@ public class RoutineDaoPostgres implements RoutineDao{
                 routine.setDateCompleted(rs.getInt("date_completed"));
                 routines.add(routine);
             }
+            rs.close();
             return routines;
         }
         catch(SQLException e){
@@ -124,8 +134,9 @@ public class RoutineDaoPostgres implements RoutineDao{
     @Override
     public Routine updateRoutine(Routine routine) {
         String sql = String.format("UPDATE %s SET username=?, routine_name=?, date_scheduled=?, date_completed=? WHERE routine_id=?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);){
+
             ps.setString(1, routine.getUsername());
             ps.setString(2, routine.getRoutineName());
             ps.setInt(3, routine.getDateScheduled());
@@ -145,8 +156,9 @@ public class RoutineDaoPostgres implements RoutineDao{
     @Override
     public boolean deleteRoutine(int routineId) {
         String sql = String.format("DELETE FROM %s WHERE routine_id = ?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setInt(1, routineId);
             int rowsChanged = ps.executeUpdate();
             if(rowsChanged == 0)

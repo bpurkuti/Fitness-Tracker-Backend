@@ -1,0 +1,7 @@
+organization=areesh-lalani
+projectKey=areesh-lalani_project2BackendClone
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.21564
+dashboardUrl=https://sonarcloud.io/dashboard?id=areesh-lalani_project2BackendClone
+ceTaskId=AXp4IXJOUPo6dshW5qKc
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXp4IXJOUPo6dshW5qKc

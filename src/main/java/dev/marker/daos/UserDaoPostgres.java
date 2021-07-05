@@ -24,8 +24,9 @@ public class UserDaoPostgres implements UserDao {
     public User createUser(User user) {
         String sql = String.format("INSERT INTO %s(username, password , first_name, last_name, gender, age, height, weight, admin) VALUES (?,crypt(?, gen_salt(?)),?,?,?,?,?,?,?)", this.tableName);
 
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, UserDaoPostgres.salt);
@@ -48,8 +49,9 @@ public class UserDaoPostgres implements UserDao {
     @Override
     public User getUser(String username) {
         String sql = String.format("SELECT * FROM %s WHERE username = ?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+        PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setString(1,username);
             User returnedUser = new User();
             ResultSet rs = ps.executeQuery();
@@ -62,6 +64,7 @@ public class UserDaoPostgres implements UserDao {
             returnedUser.setHeight(rs.getInt("height"));
             returnedUser.setWeight(rs.getInt("weight"));
             returnedUser.setAdmin(rs.getBoolean("admin"));
+            rs.close();
             return returnedUser;
         }
         catch(SQLException e){
@@ -73,8 +76,9 @@ public class UserDaoPostgres implements UserDao {
     @Override
     public User updateUser(User user) {
         String sql = String.format("UPDATE %s SET password=crypt(?, gen_salt(?)), first_name=?, last_name=?, gender=?, age=?, height=?, weight=?, admin=? WHERE username=?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setString(1, user.getPassword());
             ps.setString(2, UserDaoPostgres.salt);
             ps.setString(3, user.getFirstName());
@@ -99,8 +103,9 @@ public class UserDaoPostgres implements UserDao {
     @Override
     public String deleteUser(String username) {
         String sql = String.format("DELETE FROM %s WHERE username = ?", this.tableName);
-        try(Connection connection = ConnectionUtil.createConnection()){
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(Connection connection = ConnectionUtil.createConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)){
+
             ps.setString(1, username);
             int rowsChanged = ps.executeUpdate();
             if(rowsChanged == 0)
