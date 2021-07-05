@@ -64,6 +64,7 @@ public class RoutineServiceImpl implements RoutineService {
         if(routineName != null && routineName.length() > 0)
             routine.setRoutineName(routineName);
         routine.setDateScheduled(dateScheduled);
+        routine.setDateCompleted(dateCompleted);
         return this.routineDao.updateRoutine(routine);
     }
 
