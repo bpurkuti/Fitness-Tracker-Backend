@@ -247,16 +247,6 @@ public class RoutineExerciseServiceTests {
         }
     }
 
-    @Test(priority = 1, dependsOnMethods = "createValidRoutineExercise")
-    void deleteExistingExercise(){
-        try{
-            Boolean result = routineExerciseService.deleteExercise(user, routineExercise.getRoutineExerciseId());
-            Assert.assertTrue(result);
-        }
-        catch(Exception e){
-            Assert.assertTrue(false);
-        }
-    }
 
     @Test(dependsOnMethods = "createValidRoutineExercise")
     void deleteNonExistingExercise(){
