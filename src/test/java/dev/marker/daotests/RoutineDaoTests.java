@@ -30,6 +30,7 @@ public class RoutineDaoTests {
     private static RoutineDao routineDao = new RoutineDaoPostgres(routineTableName);
     private static Connection connection;
 
+
     @BeforeClass
     void testInit(){
         ConnectionUtil.setHostname("revaturedb.cw0dgbcoagdz.us-east-2.rds.amazonaws.com");
