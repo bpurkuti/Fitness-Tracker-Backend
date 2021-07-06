@@ -37,7 +37,7 @@ public class RoutineServiceImpl implements RoutineService {
         if(routine == null)
             throw new ResourceNotFound(String.format("Routine with id %d couldn't be found", routineId));
         if(!routine.getUsername().equals(user.getUsername()))
-            throw new PermissionException("You dont have access to this routine.");
+            throw new PermissionException("You don't have access to this routine.");
         return routine;
     }
 
@@ -53,7 +53,7 @@ public class RoutineServiceImpl implements RoutineService {
         if(routine == null)
             throw new ResourceNotFound(String.format("Routine with id %d couldn't be found", routineId));
         if(!routine.getUsername().equals(user.getUsername()))
-            throw new PermissionException("You dont have access to this routine");
+            throw new PermissionException("You don't have access to this routine");
         StringBuilder error = new StringBuilder();
         if(dateScheduled <= 0)
             error.append("A valid scheduled date must be set\n");

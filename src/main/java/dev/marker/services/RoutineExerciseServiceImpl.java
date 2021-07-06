@@ -3,6 +3,7 @@ package dev.marker.services;
 import dev.marker.daos.RoutineExerciseDao;
 import dev.marker.daos.RoutineDao;
 import dev.marker.entities.RoutineExercise;
+import dev.marker.exceptions.IncorrectArguments;
 import dev.marker.exceptions.ResourceNotFound;
 import dev.marker.entities.User;
 import dev.marker.exceptions.PermissionException;
@@ -20,72 +21,89 @@ public class RoutineExerciseServiceImpl implements RoutineExerciseService{
 
     @Override
     public RoutineExercise createExercise(User user, RoutineExercise routineExercise) throws PermissionException {
-        String curr = this.routineDao.getRoutine(routineExercise.getRoutineId()).getUsername();
-        if(curr.equals(user.getUsername())){
-            RoutineExercise returnedExercise = this.routineExerciseDao.createExercise(routineExercise);
-            if(returnedExercise == null){
-                throw new ResourceNotFound("Could not create a routine exercise at this time");
+        try{
+            String curr = this.routineDao.getRoutine(routineExercise.getRoutineId()).getUsername();
+            if(curr.equals(user.getUsername())){
+                RoutineExercise returnedExercise = this.routineExerciseDao.createExercise(routineExercise);
+            }
+            else{
+                throw new PermissionException("Cannot create exercise at this time");
             }
         }
-        else{
-            throw new PermissionException("Cannot create exercise at this time");
+        catch(NullPointerException e){
+            throw new ResourceNotFound("Could not create a routine exercise at this time");
         }
+
         return routineExercise;
     }
 
     @Override
     public RoutineExercise getExercise(User user, int routineExerciseId) throws PermissionException{
-
-            RoutineExercise returnedExercise = this.routineExerciseDao.getExercise(routineExerciseId);
-            if(returnedExercise == null){
-                throw new ResourceNotFound("Could not retrieve that exercise at this time");
+            try{
+                RoutineExercise returnedExercise = this.routineExerciseDao.getExercise(routineExerciseId);
+                String curr = this.routineDao.getRoutine(returnedExercise.getRoutineId()).getUsername();
+                if(curr.equals(user.getUsername())){
+                    return returnedExercise;
+                }
+                else{
+                    throw new PermissionException("You do not have access to that exercise");
+                }
             }
-            String curr = this.routineDao.getRoutine(returnedExercise.getRoutineId()).getUsername();
-            if(curr.equals(user.getUsername())){
-                return returnedExercise;
-        }
-            else{
-                throw new PermissionException("You do not have access to that exercise");
+            catch(NullPointerException e){
+                throw new ResourceNotFound("Could not retrieve that exercise at this time");
             }
 
     }
 
     @Override
     public List<RoutineExercise> getAllExercisesInRoutine(User user, int routineId) throws PermissionException{
-        String curr = this.routineDao.getRoutine(routineId).getUsername();
-        if(curr.equals(user.getUsername())){
-            List<RoutineExercise> exercises = this.routineExerciseDao.getAllExercisesInRoutine(routineId);
-            if(exercises == null){
-                throw new ResourceNotFound("Could not fetch exercises at this time");
+        try{
+            String curr = this.routineDao.getRoutine(routineId).getUsername();
+            if(curr.equals(user.getUsername())){
+                List<RoutineExercise> exercises = this.routineExerciseDao.getAllExercisesInRoutine(routineId);
+                return exercises;
             }
-            return exercises;
+            else{
+                throw new PermissionException("Cannot get exercises at this time");
+            }
         }
-        else{
-            throw new PermissionException("Cannot get exercises at this time");
+        catch(NullPointerException e){
+            throw new ResourceNotFound("Could not fetch exercises at this time");
         }
     }
 
     @Override
     public RoutineExercise updateExercise(User user, RoutineExercise routineExercise) throws PermissionException {
-        String curr = this.routineDao.getRoutine(routineExercise.getRoutineId()).getUsername();
-        if(curr.equals(user.getUsername())){
-            RoutineExercise returnedExercise = this.routineExerciseDao.updateExercise(routineExercise);
-            if(returnedExercise == null){
-                throw new ResourceNotFound("Could not fetch exercises at this time");
+        try{
+            String curr = this.routineDao.getRoutine(routineExercise.getRoutineId()).getUsername();
+            if(curr.equals(user.getUsername())){
+                RoutineExercise returnedExercise = this.routineExerciseDao.updateExercise(routineExercise);
+                if(returnedExercise == null){
+                    throw new ResourceNotFound("Cannot update non existent exercise");
+                }
+                return returnedExercise;
             }
-            return returnedExercise;
+            else{
+                throw new PermissionException("Cannot update that exercise at this time");
+            }
         }
-        else{
-            throw new PermissionException("Cannout update that exercise at this time");
+        catch(NullPointerException e){
+            throw new ResourceNotFound("Could not update exercises at this time");
         }
     }
 
     @Override
     public boolean deleteExercise(User user, int routineExerciseId) throws PermissionException{
-        String curr = this.routineDao.getRoutine(this.routineExerciseDao.getExercise(routineExerciseId).getRoutineId()).getUsername();
-        if(curr.equals(user.getUsername())){
-            return this.routineExerciseDao.deleteExercise(routineExerciseId);
+        try{
+            String curr = this.routineDao.getRoutine(this.routineExerciseDao.getExercise(routineExerciseId).getRoutineId()).getUsername();
+            if(curr.equals(user.getUsername())){
+                return this.routineExerciseDao.deleteExercise(routineExerciseId);
+            }
+            throw new PermissionException("Cannot delete that exercise at this time");
         }
-        throw new PermissionException("Cannot delete that exercise at this time");
+        catch(NullPointerException e){
+            throw new ResourceNotFound("The specified exercise does not exist");
+        }
+
     }
 }
