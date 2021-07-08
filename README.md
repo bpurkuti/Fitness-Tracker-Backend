@@ -7,41 +7,53 @@ This is a fitness and exercise tracking application. This program will allow the
 
 ## Technologies Used
 
-* Tech 1 - version 1.0
-* Tech 2 - version 2.0
-* Tech 3 - version 3.0
+* Java - version 1.8
+* JavaScript - version ES6
+* Maven - version 3.6.3
+* VSCode - version 1.57.0
+* IntelliJ - version 2021.1.3
+* Selenium
+* HTML
+* CSS
+* PostgreSQL
+* Postman
+* SonarCloud
+
 
 ## Features
 
 List of features ready and TODOs for future development
-* Awesome feature 1
-* Awesome feature 2
-* Awesome feature 3
+#### Admin:
 
-To-do list:
-* Wow improvement to be done 1
-* Wow improvement to be done 2
+- An admin can create different exercises to choose from
+#### User:
 
-## Getting Started
-   
-(include git clone command)
-(include all environment setup steps)
+- A user can login to see their planned routine dashboard
+- A user can create new routines filled with planned exercises
+- A use can complete a routine and remove it from their list
 
-> Be sure to include BOTH Windows and Unix command  
-> Be sure to mention if the commands only work on a specific platform (eg. AWS, GCP)
+#### To-do list:
 
-- All the `code` required to get started
-- Images of what it should look like
-
-## Usage
-
-> Here, you instruct other people on how to use your project after they’ve installed it. This would also be a good place to include screenshots of your project in action.
+-Implement a history table of past completed routines
+-Implement a "copy routine" function into the history table
+-Implement graphical representation of the user's past routines and exercises
+-Implement edit routine functionality for the user
+-Implement delete routine functionality for the user
+-Implement delete exercise functionality for the admin
 
 ## Contributors
 
-> Here list the people who have contributed to this project. (ignore this section, if its a solo project)
+> Wolf Ryan
+> Jonathan Lemarroy
+> Bishwo Purkuti
+> Areesh Lalani
 
 ## License
 
-This project uses the following license: [<license_name>](<link>).
+This project uses the following license: [MIT License](https://github.com/wolfryan97/Project2Backend/blob/main/LICENSE).
+
+## See Also
+
+- https://github.com/wolfryan97/Project2Automation
+- https://github.com/wolfryan97/Project2Web
 
