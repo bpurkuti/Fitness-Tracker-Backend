@@ -34,12 +34,13 @@ List of features ready and TODOs for future development
 
 #### To-do list:
 
--Implement a history table of past completed routines
--Implement a "copy routine" function into the history table
--Implement graphical representation of the user's past routines and exercises
--Implement edit routine functionality for the user
--Implement delete routine functionality for the user
--Implement delete exercise functionality for the admin
+- Impliment a sets field to weight exercises
+- Implement a history table of past completed routines
+- Implement a "copy routine" function into the history table
+- Implement graphical representation of the user's past routines and exercises
+- Implement edit routine functionality for the user
+- Implement delete routine functionality for the user
+- Implement delete exercise functionality for the admin
 
 ## Contributors
 
