@@ -43,10 +43,10 @@ List of features ready and TODOs for future development
 
 ## Contributors
 
-> Wolf Ryan
-> Jonathan Lemarroy
-> Bishwo Purkuti
-> Areesh Lalani
+> - Wolf Ryan
+> - Jonathan Lemarroy
+> - Bishwo Purkuti
+> - Areesh Lalani
 
 ## License
 
