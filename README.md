@@ -1,4 +1,4 @@
-# Project 2
+# Fitness Tracker
 
 ## Project Description
 
